@@ -11,6 +11,10 @@ body {
 .main-container {
     display: flex;
 }
+.right-panel, 
+.left-panel {
+    margin: 20px;
+}
 h1 {
     color: #46F3F6;
     font-size: 36px;
@@ -65,11 +69,25 @@ button {
 }
 .leaderboard {
     background-color: #d9b2c0;
-    width: 400px;
-    height: 50px;
+    /* width: 400px; */
+    /* height: 80px; */
+    padding: 20px;
+    display: flex;
+    /* justify-content: space-between; */
 }
 .big-icon {
-    font-size: 50px;;
+    font-size: 50px;
+    padding: 20px;
+}
+.tally-by-scenario {
+    display: flex;
+}
+.tally-by-scenario p {
+    text-align: center;
+}
+.small-icon {
+    font-size: 30px;
+    padding:15px;
 }
 .grid {
     width: 400px;
