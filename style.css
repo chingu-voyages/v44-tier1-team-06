@@ -1,6 +1,6 @@
-* {
+/* * {
     outline: 1px solid orange;
-}
+} */
 body {
     background-color:#5471F3;
     color:#074040;
@@ -10,10 +10,11 @@ body {
 }
 .main-container {
     display: flex;
+    justify-content: center;
 }
 .right-panel, 
 .left-panel {
-    margin: 20px;
+    margin: 50px;
 }
 h1 {
     color: #46F3F6;
@@ -23,14 +24,23 @@ h1 {
 .buttons-container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    padding:50px 0 10px 0;
 }
-.roll-dice-container {
+.roll-button-dice-container {
     display: flex;
+    align-items: center;
+    justify-content: center;
+    margin:10px;
+}
+.die {
+    color: white;
+    font-size: 50px;
+    padding: 5px;
 }
 .clear-submit-buttons-container {
     display: flex;
+    margin:10px 0 5px 0;
 }
 button {
     color: #074040;
@@ -56,7 +66,6 @@ button {
 .button-submit {
     background-color: #03d9a0;
 }
-
 .button-new:hover,
 .button-clear:hover,
 .button-roll:hover,
