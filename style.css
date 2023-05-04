@@ -8,6 +8,9 @@ body {
     padding: 20px;
     margin:10px;
 }
+.main-container {
+    display: flex;
+}
 h1 {
     color: #46F3F6;
     font-size: 36px;
@@ -55,6 +58,20 @@ button {
 .button-roll:hover,
 .button-submit:hover {
     box-shadow: 10px 10px 10px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+.left-panel {
+    display: flex;
+    flex-direction: column;
+}
+.leaderboard {
+    background-color: #d9b2c0;
+    width: 400px;
+    height: 50px;
+}
+.grid {
+    width: 400px;
+    height: 400px;
+    background-color: #d9b2c0;
 }
 footer {
     text-align: center;
