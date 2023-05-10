@@ -39,24 +39,105 @@
 
  */
 
- const playerOneWinTracker = document.querySelector(".player-one-win-tracker");
- const playerTwoWinTracker = document.querySelector(".player-two-win-tracker");
- const playerOneLoseTracker = document.querySelector(".player-one-lose-tracker");
- const playerTwoLoseTracker = document.querySelector(".player-two-lose-tracker");
- const totalWins = document.querySelector(".total-wins");
- const totalLoses = document.querySelector(".total-loses");
- const movesButton = document.querySelector(".movesButton")
+// Change this one to be for only one player and to use an eventlister
 
- let remainingMoves = 10; // track the remaining moves
+playerButton.addEventListener("click", function () {
+    subtractMove();
+}); // I think that is right but I should check
+
+const subtractMove = function (playerNumber) {
+    var movesCountElement = document.getElementById("moves-count");
+    var movesCount = parseInt(movesCountElement.innerText); // look up what parseInt does.
+    
+    if (movesCount > 0) {
+        movesCount--;
+        movesCountElement.innerText = movesCount;
+        console.log("Move subtracted for player " + playerNumber)
+    } else {
+        console.log("No more moves left for Player " + playerNumber)
+
+        // added from a different Chat GBT question to make the buttons appear and disappear
+        document.getElementById("playButton").classList.add("hidden");
+        document.getElementById("playAgainButton").classList.remove("hidden");
+    }
+}
+
+// tracking the number of points each player has from Chat GBT
+const players = {
+    player1: 0,
+    player2: 0
+};
+
+// lose condition of forfeiting two consecutive turns
+
+
+diceButton.addEventListener("click", function () {
+    const count = 0;
+    count++;
+    if (count <= 2) {
+        console.log("You lose!")
+        document.getElementById("diceButton").classList.add("hidden");
+        
+    }
+    
+})
+
+/*
+     So each time the roll dice button is clicked, the count variable would increment, and when it becomes equal to 2, the player is notified that they lost, and the event listener is removed from the roll dice button so they can't roll again. To reset the count variable, we could just include logic in the event listener for the submit button to reset it back to zero when the submit button is clicked.
+*/
+
+
+
+
+// Old attemps
+
+const playerOneWinTracker = document.querySelector(".player-one-win-tracker");
+const playerTwoWinTracker = document.querySelector(".player-two-win-tracker");
+const playerOneLoseTracker = document.querySelector(".player-one-lose-tracker");
+const playerTwoLoseTracker = document.querySelector(".player-two-lose-tracker");
+const totalWins = document.querySelector(".total-wins");
+const totalLoses = document.querySelector(".total-loses");
+const movesButton = document.querySelector(".movesButton")
+
+let remainingMoves = 10; // track the remaining moves
 
 movesButton.addEventListener("click", function (e) {
-    /* Whenever this button is clicked these things will happen
-        remaining moves will be subtracted by one
-        
-    */
-    remainingMoves -= 1;
+   /* Whenever this button is clicked these things will happen
+       remaining moves will be subtracted by one
+   */
+   remainingMoves -= 1;
 
 })
+
+
+function updatePoints(player, points) {
+    if (players.hasOwnProperty(player)) {
+        players[player] += points;
+    } else {
+        console.log(`Player ${player} does not exist`);
+    }
+}
+
+/* How to do the rest of the win/lose conditions
+
+// Take out the win condition of highest score wins since we are starting out with only one player
+
+ A player forfeits two consecutive turns - Carol will assist me with that.
+    if you roll the dice twice wihtout touching  the grid, the button disappears
+    dicre roll counter varialbe and connect to the eventlistener have a message
+
+
+
+
+*/
+
+
+
+
+
+
+
+
 
 const noMoreMoves = function (moves) {
     /* if the remainingMoves variable is gone down to 0 this things will happen
@@ -66,8 +147,14 @@ const noMoreMoves = function (moves) {
         The player with the highest number in the win class will get another point in their favor
         The total number of wins and loses will both increase by one
     */
+    if (remainingMoves === 0) {
+        console.log("There are no more moves.")
+
+    }
    
 }
+
+
 
 
 
