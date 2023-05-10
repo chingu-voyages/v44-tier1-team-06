@@ -41,6 +41,8 @@
 
 // Change this one to be for only one player and to use an eventlister
 
+
+
 playerButton.addEventListener("click", function () {
     subtractMove();
 }); // I think that is right but I should check
@@ -69,18 +71,40 @@ const players = {
 };
 
 // lose condition of forfeiting two consecutive turns
-
-
+let forfeitTurnLosses = 0;
 diceButton.addEventListener("click", function () {
     const count = 0;
     count++;
     if (count <= 2) {
-        console.log("You lose!")
+        console.log("You lose!") // change value and 
         document.getElementById("diceButton").classList.add("hidden");
-        
-    }
-    
-})
+        forfeitTurnLosses++;
+    } 
+});
+
+// then use document.querySelector to grab the corresponding icon in the leaderboard
+// then use the forfeitTurnLosses variable as the innerHTML of that icon
+
+function shade(event) {
+    let targetCell = event.target;
+    targetCell.classList.toggle("shaded");
+    clickedCells.push(targetCell);
+  }
+  
+  // remove the click event listener from every cell in the clickedCells array after the submit button is clicked
+  submitButton.addEventListener("click", function () {
+    clickedCells.forEach((clickedCell) =>
+      clickedCell.removeEventListener("click", shade)
+    );
+    count = 0;
+  });
+
+
+
+// if the clicked cells array equals 100 then the player wins and the point can be added to the total points.
+
+// have a timer then if the player hasn't filled out the grid then it counts as a loss.
+
 
 /*
      So each time the roll dice button is clicked, the count variable would increment, and when it becomes equal to 2, the player is notified that they lost, and the event listener is removed from the roll dice button so they can't roll again. To reset the count variable, we could just include logic in the event listener for the submit button to reset it back to zero when the submit button is clicked.
