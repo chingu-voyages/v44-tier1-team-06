@@ -79,11 +79,20 @@ diceButton.addEventListener("click", function () {
         console.log("You lose!") // change value and 
         document.getElementById("diceButton").classList.add("hidden");
         forfeitTurnLosses++;
+        // then use document.querySelector to grab the corresponding icon in the leaderboard
+        // then use the forfeitTurnLosses variable as the innerHTML of that icon
     } 
 });
 
-// then use document.querySelector to grab the corresponding icon in the leaderboard
-// then use the forfeitTurnLosses variable as the innerHTML of that icon
+/* what to do next
+    Clean and organize my code for the two or three win/lose conditions
+    For the grid condition, when the clickedCells array is at 100 then add a point to the leaderboard.
+    Ask teammates if they can see my code or if it's just that I have a branch
+    Look up what a pull request is and how to do one and also what a merge is and how to do one.
+    Look on the github for what has been added recently by my teammates
+*/
+
+
 
 function shade(event) {
     let targetCell = event.target;
@@ -106,14 +115,20 @@ function shade(event) {
 // have a timer then if the player hasn't filled out the grid then it counts as a loss.
 
 
-/*
-     So each time the roll dice button is clicked, the count variable would increment, and when it becomes equal to 2, the player is notified that they lost, and the event listener is removed from the roll dice button so they can't roll again. To reset the count variable, we could just include logic in the event listener for the submit button to reset it back to zero when the submit button is clicked.
-*/
 
 
 
 
-// Old attemps
+
+
+
+
+
+
+
+
+
+/* Old attemps
 
 const playerOneWinTracker = document.querySelector(".player-one-win-tracker");
 const playerTwoWinTracker = document.querySelector(".player-two-win-tracker");
@@ -126,13 +141,12 @@ const movesButton = document.querySelector(".movesButton")
 let remainingMoves = 10; // track the remaining moves
 
 movesButton.addEventListener("click", function (e) {
-   /* Whenever this button is clicked these things will happen
+     Whenever this button is clicked these things will happen
        remaining moves will be subtracted by one
-   */
+   
    remainingMoves -= 1;
 
 })
-
 
 function updatePoints(player, points) {
     if (players.hasOwnProperty(player)) {
@@ -151,18 +165,6 @@ function updatePoints(player, points) {
     dicre roll counter varialbe and connect to the eventlistener have a message
 
 
-
-
-*/
-
-
-
-
-
-
-
-
-
 const noMoreMoves = function (moves) {
     /* if the remainingMoves variable is gone down to 0 this things will happen
         A message will pop up saying there are no more moves
@@ -170,13 +172,14 @@ const noMoreMoves = function (moves) {
         A play again button will appear
         The player with the highest number in the win class will get another point in their favor
         The total number of wins and loses will both increase by one
-    */
+    
     if (remainingMoves === 0) {
         console.log("There are no more moves.")
 
     }
    
 }
+*/
 
 
 
