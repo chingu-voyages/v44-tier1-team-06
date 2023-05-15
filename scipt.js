@@ -57,6 +57,7 @@
         User can see the display of the total number of wins and losses for each
         User can see the tally of wins for each of the three ways the game can end
         User can see the tally of losses for each of the three ways the game can end
+    Use Chat GBT to figure out how to track conditions of winning the game.
 */
 
 
@@ -71,10 +72,16 @@ diceButton.addEventListener("click", function () {
         console.log("You lose!") // change value and ???
        // document.getElementById("diceButton").classList.add("hidden"); Ask Carol why she commented out this line of code.
         forfeitTurnLosses++;
-        // then use document.querySelector to grab the corresponding icon in the leaderboard
-        // then use the forfeitTurnLosses variable as the innerHTML of that icon
-    } 
+        const forfeitWinCondition = document.getElementById("win-icon").classList.remove("hidden"); // Add win condition icon to leaderboard
+        forfeitWinCondition.innerHTML = forfeitTurnLosses;  // then use the forfeitTurnLosses variable as the innerHTML of that icon
+    } // Ask teammates about this code and what I'm trying to do here.
 });
+
+// win condition of the whole grid being shaded.
+const fullGridWinCondition = function () {
+    // if the clicked cells array equals 100 then the player wins and the point can be added to the total points.
+    // ask Carol if she has a clicked cells array and if so then I can add an if statement for if the array equals 100 then one point goes into the leaderbaord.
+}
 
 // Carol wrote this and the submitButton event listener
 function shade(event) {
