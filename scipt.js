@@ -61,8 +61,9 @@
 */
 
 
+// win/lose section of leaderboard
 
-// lose condition of forfeiting two consecutive turns
+// lose condition of forfeiting two consecutive turns, I wrote this
 let forfeitTurnLosses = 0;
 let count = 0; // Carol wrote that
 diceButton.addEventListener("click", function () {
@@ -75,31 +76,43 @@ diceButton.addEventListener("click", function () {
         const forfeitWinCondition = document.getElementById("win-icon").classList.remove("hidden"); // Add win condition icon to leaderboard
         forfeitWinCondition.innerHTML = forfeitTurnLosses;  // then use the forfeitTurnLosses variable as the innerHTML of that icon
     } // Ask teammates about this code and what I'm trying to do here.
+
 });
 
 // win condition of the whole grid being shaded.
+
 const fullGridWinCondition = function () {
     // if the clicked cells array equals 100 then the player wins and the point can be added to the total points.
     // ask Carol if she has a clicked cells array and if so then I can add an if statement for if the array equals 100 then one point goes into the leaderbaord.
 }
 
-// Carol wrote this and the submitButton event listener
-function shade(event) {
-    let targetCell = event.target;
-    targetCell.classList.toggle("shaded");
-    clickedCells.push(targetCell);
-  }
-  
-  // remove the click event listener from every cell in the clickedCells array after the submit button is clicked
-  submitButton.addEventListener("click", function () {
-    clickedCells.forEach((clickedCell) =>
-      clickedCell.removeEventListener("click", shade)
-    );
-    count = 0;
-  });
+// Tracking points section of leaderboard
+
+const totalPoints = function () {
+    totalLoses + totalWins; // ??
+
+};
+
+const totalWins = function () {
+
+}
+
+const totalLoses = function (forfeitTurnLosses) {
+    forfeitTurnLosses.length; // ??
+}
 
 
-// I do need this code but I'll have to go through it.
+
+
+
+
+
+
+
+
+
+
+/* old attempt
 playerButton.addEventListener("click", function () {
     subtractMove();
 }); // I think that is right but I should check
@@ -126,25 +139,9 @@ const players = {
     player1: 0,
     player2: 0
 };
-
-
-
+*/
 
 // have a timer then if the player hasn't filled out the grid then it counts as a loss.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /* Old attemps
 
