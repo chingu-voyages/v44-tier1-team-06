@@ -103,15 +103,6 @@ const totalLoses = function (forfeitTurnLosses) {
 
 
 
-
-
-
-
-
-
-
-
-
 /* old attempt
 playerButton.addEventListener("click", function () {
     subtractMove();
