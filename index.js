@@ -1,57 +1,43 @@
-const container = document.querySelector(".container");
+const diceLeft = document.getElementsByClassName("dice-left");
+const diceRight = document.getElementsByClassName("dice-right");
+const diceArrayLeft = Array.from(diceLeft);
+const diceArrayRight = Array.from(diceRight);
 
-let boardHeight;
-let boardWidth;
-let singlePlayer = true;
-
-const submitButton = document.querySelector(".button-submit");
-
-function createGrid() {
-    // gives us the option to expand the board dimensions in two player mode
-    if (singlePlayer) {
-    boardHeight = 10;
-    boardWidth = 10;
-    } else {
-    boardHeight = 20;
-    boardWidth = 10;
-    }
-
-    // create 10 columns
-    for (let i = 0; i < boardHeight; i++) {
-        const column = document.createElement("div");
-        column.classList.add("column");
-
-        // create cells in each row
-        for (let j = 0; j < boardWidth; j++) {
-            const cell = document.createElement("div");
-            cell.classList.add("cell");
-            column.appendChild(cell);
-        }
-
-    container.appendChild(column);
-    }
-}
-
-createGrid();
-
-let clickedCells = [];
-
-const cells = document.querySelectorAll(".cell");
-
-// shade a cell when clicked and push that cell to the clickedCells array
-cells.forEach((cell) => {
-    cell.addEventListener("click", shade);
+document.querySelector('.roll').addEventListener('click', function() {
+  diceElementsHandler()
 });
 
-function shade(event) {
-    let targetCell = event.target;
-    targetCell.classList.toggle("shaded");
-    clickedCells.push(targetCell);
-}
+diceElementsHandler = () => {
 
-// remove the click event listener from every cell in the clickedCells array after the submit button is clicked
-submitButton.addEventListener("click", function () {
-    clickedCells.forEach((clickedCell) =>
-    clickedCell.removeEventListener("click", shade)
-    );
-});
+  let intOne, intTwo;
+
+  const diceLoopHandler = () => {
+
+    for (let i = 0; i < diceArrayLeft.length; i++) {
+      if (diceArrayLeft[i].id === intOne) {
+        diceArrayLeft[i].className = "active";
+      } else {
+        diceArrayLeft[i].className = "inactive";
+      }
+    }
+
+    for (let i = 0; i < diceArrayRight.length; i++) {
+      if (diceArrayRight[i].id === intTwo) {
+        diceArrayRight[i].className = "active";
+      } else {
+        diceArrayRight[i].className = "inactive";
+      }
+    }
+
+  }
+
+
+
+  (() => {
+    let arr = ["one", "two", "three", "four", "five", "six"];
+    intOne = arr[Math.floor(Math.random() * arr.length)];
+    intTwo = arr[Math.floor(Math.random() * arr.length)];
+    diceLoopHandler()
+  })();
+
+}
