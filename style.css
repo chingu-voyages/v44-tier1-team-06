@@ -42,7 +42,8 @@ h1 {
   display: flex;
   margin: 10px 0 5px 0;
 }
-button {
+button,
+.timer {
   color: #074040;
   padding: 15px 32px;
   margin: 20px;
@@ -54,7 +55,8 @@ button {
   font-weight: bold;
   border-radius: 10px;
 }
-.button-new {
+.button-new,
+.timer {
   background-color: #f57ba7;
 }
 .button-roll {
@@ -69,9 +71,16 @@ button {
 .button-new:hover,
 .button-clear:hover,
 .button-roll:hover,
-.button-submit:hover {
+.button-submit:hover,
+.timer:hover {
   box-shadow: 10px 10px 10px 0 rgba(0, 0, 0, 0.2),
     0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.timer {
+  font-size: 2.5em;
+  padding: 10px;
+  text-align: center;
+  margin: 0 auto;
 }
 .left-panel {
   display: flex;
@@ -129,3 +138,6 @@ footer {
   text-align: center;
   padding-top: 20px;
 }
+
+/* timer */
+
