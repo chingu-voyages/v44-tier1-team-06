@@ -75,3 +75,38 @@ var interval = setInterval(function() {
     $('.timer').text(timer);
     if (timer === 0) clearInterval(interval);
 }, 1000);
+
+
+// lose condition of forfeiting two consecutive turns, I wrote this
+let forfeitTurnLosses = 0;
+let count = 0; // Carol wrote that
+diceButton.addEventListener("click", function () {
+    // const count = 0; this should have been a global function so outside of the event lister.
+    count++;
+    if (count === 2) {
+        console.log("You lose!") // change value and ???
+       // document.getElementById("diceButton").classList.add("hidden"); Ask Carol why she commented out this line of code.
+        forfeitTurnLosses++;
+        const forfeitLoseCondition = document.getElementById("forfeit-icon").classList.remove("hidden"); // Add lose condition icon to leaderboard
+        forfeitLoseCondition.innerHTML = forfeitTurnLosses.length;  // then use the forfeitTurnLosses variable as the innerHTML of that icon
+
+    } // Ask teammates about this code and what I'm trying to do here.
+
+
+});
+
+// win condition of the whole grid being shaded.
+
+
+
+// Tracking points section of leaderboard
+
+
+const totalPoints = function () {
+    forfeitTurnLosses + totalWins; // ?? adding the total wins and losses
+    // Since there is only one win condition and one lose condition it might be possible to just add the code to the two condition event listeners and then add the points to the totalPoints function.  Should talk to people about that.
+};
+
+const totalWins = function () {
+    // I might not need a whole new function for this but I should ask.
+}
