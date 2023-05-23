@@ -1,6 +1,5 @@
 // Grid Section
 
-
 const container = document.querySelector(".container");
 
 let boardHeight;
@@ -89,10 +88,7 @@ diceButton.addEventListener("click", function () {
     count++;
     if (count === 2) {
         console.log("You lose!") 
-       // document.getElementById("diceButton").classList.add("hidden"); Ask Carol why she commented out this line of code.
         forfeitTurnLosses++;
-        const forfeitLoseCondition = document.getElementById("forfeit-scenario").classList.remove("hidden"); // Add lose condition icon to leaderboard
-        forfeitLoseCondition.innerHTML = forfeitTurnLosses.length;  // use the forfeitTurnLosses variable as the innerHTML of that icon.  Ask about this line
     } 
 });
 
@@ -100,9 +96,26 @@ diceButton.addEventListener("click", function () {
 let filledGridWin = 0;
 
 
+// I think we were going to try to have the points displayed for a particular condition when the user hovers over the icon. I think we could do that with a mouseover event listener.
+loseIcon.addEventListener("mousemover", function () {
+    loseIcon.innerHTML = forfeitTurnLosses.length;
+}); // figure this one out.
+
+// Point tracking section
+
+const lossPointsTotal = function () {
+    const losePointsTracker = document.getElementById("");
+    losePointsTracker.innerHTML = forfeitTurnLosses.length;
+}
+
+const winPointsTotal = function () {
+    const winPointsTracker = document.getElementById("");
+    winPointsTracker.innerHTML = filledGridWin.length;
+}
+
 const totalPoints = function () {
-    forfeitTurnLosses.length + totalWins.length; // ?? adding the total wins and losses
-    // Since there is only one win condition and one lose condition it might be possible to just add the code to the two condition event listeners and then add the points to the totalPoints function.  Should talk to people about that.
-    const totalPoints = document.getElementById("tally-by-scenario").classList.remove("hidden");
+    forfeitTurnLosses.length + filledGridWin.length; // ?? adding the total wins and losses
 
 };
+
+
