@@ -75,3 +75,27 @@ var interval = setInterval(function() {
     $('.timer').text(timer);
     if (timer === 0) clearInterval(interval);
 }, 1000);
+
+// DICE ROLLER
+const diceRoller = document.querySelector(".button-roll");
+const diceOne = document.querySelector(".dice-one");
+const diceTwo = document.querySelector(".dice-two");
+const placeholders = document.querySelectorAll(".placeholder");
+
+diceRoller.addEventListener("click", handleRollButtonClick)
+
+function handleRollButtonClick() {
+    // when the roll button is clicked, generate random numbers between 1 and 6 for each of the die
+    let diceOneValue = Math.floor(Math.random() * 6) + 1;
+    let diceTwoValue = Math.floor(Math.random() * 6) + 1;
+
+    // set the src attribute of each dice image depending on the randomly generated number
+    let diceOneSrc = `img/dice${diceOneValue}.png`;
+    diceOne.setAttribute('src', diceOneSrc);
+
+    let diceTwoSrc = `img/dice${diceTwoValue}.png`;
+    diceTwo.setAttribute('src', diceTwoSrc);
+
+    // hide the placeholders when the die are rolled
+    placeholders.forEach(placeholder => placeholder.style.display = "none");
+}
