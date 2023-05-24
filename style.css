@@ -38,6 +38,13 @@ h1 {
   font-size: 50px;
   padding: 5px;
 }
+
+.dice-one,
+.dice-two {
+  padding: 5px;
+  width: 50px;
+}
+
 .clear-submit-buttons-container {
   display: flex;
   margin: 10px 0 5px 0;
@@ -140,4 +147,3 @@ footer {
 }
 
 /* timer */
-
