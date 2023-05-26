@@ -139,3 +139,4 @@ const totalPoints = function () {
 };
 
 
+// checking something with Elizabeth
