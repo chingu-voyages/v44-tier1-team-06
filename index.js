@@ -36,29 +36,18 @@ function createGrid() {
 
 createGrid();
 
+// keep track of the cells that are clicked during each turn
 let clickedCells = [];
 
+// creates a node list containing each div with a class of "cell"
 const cells = document.querySelectorAll(".cell");
 
-// shade a cell when clicked and push that cell to the clickedCells array
-cells.forEach((cell) => {
-    cell.addEventListener("click", shade);
-});
-
+// shade cells on the grid
 function shade(event) {
     let targetCell = event.target;
     targetCell.classList.toggle("shaded");
     clickedCells.push(targetCell);
 }
-
-// remove the click event listener from every cell in the clickedCells array after the submit button is clicked
-submitButton.addEventListener("click", function () {
-    clickedCells.forEach((clickedCell) =>
-    clickedCell.removeEventListener("click", shade)
-    );
-    // empty out the array so the submitted cells don't get cleared if the clear button is clicked
-    clickedCells = [];
-});
 
 // use the clear button to unshade the cells that were just clicked (but not submitted) so the user can try a different combo of cells
 clearButton.addEventListener("click", () => {
@@ -98,4 +87,19 @@ function handleRollButtonClick() {
 
     // hide the placeholders when the die are rolled
     placeholders.forEach(placeholder => placeholder.style.display = "none");
+
+    // only AFTER the roll button is clicked, shade a cell when clicked and push that cell to the clickedCells array
+    cells.forEach((cell) => {
+        cell.addEventListener("click", shade);
+    });
+
+    // submit button is only clickable AFTER the die are rolled
+    // remove the click event listener from every cell in the clickedCells array after the submit button is clicked
+    submitButton.addEventListener("click", function () {
+        clickedCells.forEach((clickedCell) =>
+        clickedCell.removeEventListener("click", shade)
+        );
+        // empty out the array so the submitted cells don't get cleared if the clear button is clicked
+        clickedCells = [];
+    });
 }
