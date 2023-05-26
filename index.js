@@ -97,9 +97,13 @@ let filledGridWin = 0;
 
 
 // I think we were going to try to have the points displayed for a particular condition when the user hovers over the icon. I think we could do that with a mouseover event listener.
+// watch a vdieo about how to do the leaderboard
 loseIcon.addEventListener("mousemover", function () {
     loseIcon.innerHTML = forfeitTurnLosses.length;
-}); // figure this one out.
+}); // figure this one out on Chat GBT
+
+
+
 
 // Point tracking section
 
