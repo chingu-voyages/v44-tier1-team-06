@@ -81,26 +81,41 @@ var interval = setInterval(function() {
 // Leaderboard Section
 
 // lose condition of forfeiting two consecutive turns
-let forfeitTurnLosses = 0;
+let forfeitTurnPoints = 0;
 let count = 0; 
 diceButton.addEventListener("click", function () {
     // const count = 0; this should have been a global function so outside of the event lister.
     count++;
     if (count === 2) {
         console.log("You lose!") 
-        forfeitTurnLosses++;
+        forfeitTurnPoints++;
     } 
 });
 
 // win condition of the whole grid being shaded.
-let filledGridWin = 0;
+let fullGridPoints = 0;
 
 
-// I think we were going to try to have the points displayed for a particular condition when the user hovers over the icon. I think we could do that with a mouseover event listener.
+//  Icon section to see number of points when hovering over icon
+
 // watch a vdieo about how to do the leaderboard
-loseIcon.addEventListener("mousemover", function () {
-    loseIcon.innerHTML = forfeitTurnLosses.length;
-}); // figure this one out on Chat GBT
+const forfeitIcon = document.getElementById("fa-solid fa-font-awesome small-icon");
+
+forfeitIcon.addEventListener("mousemover", function () {
+    forfeitIcon.innerHTML = forfeitTurnLosses.length;
+}); 
+
+const fullGridIcon = document.getElementById("fa-solid fa-square small-icon");
+
+fullGridIcon.addEventListener("mouseover", function () {
+    fullGridIcon.innerHTML = filledGridWin.length
+});
+
+const totalIcon = document.getElementById("");
+
+totalIcon.addEventListener("mouseover", function () {
+    totalIcon.innerHTML
+})
 
 
 
@@ -108,17 +123,18 @@ loseIcon.addEventListener("mousemover", function () {
 // Point tracking section
 
 const lossPointsTotal = function () {
-    const losePointsTracker = document.getElementById("");
-    losePointsTracker.innerHTML = forfeitTurnLosses.length;
+    const losePointsTracker = document.getElementById("forfeit-scenario");
+    losePointsTracker.innerHTML = forfeitTurnPoints.length;
 }
 
 const winPointsTotal = function () {
-    const winPointsTracker = document.getElementById("");
-    winPointsTracker.innerHTML = filledGridWin.length;
+    const winPointsTracker = document.getElementById("full-grid-scenario");
+    winPointsTracker.innerHTML = fullGridPoints.length;
 }
 
 const totalPoints = function () {
-    forfeitTurnLosses.length + filledGridWin.length; // ?? adding the total wins and losses
+    const totalPointsTracker = document.getElementById("tally-win-lose")
+    totalPointsTracker.innerHTML = forfeitTurnPoints.length + fullGridPoints.length; // ?? adding the total wins and losses
 
 };
 
