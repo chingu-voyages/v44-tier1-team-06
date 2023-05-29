@@ -18,9 +18,25 @@ body {
 }
 h1 {
   color: #46f3f6;
-  font-size: 36px;
+  font-size: 48px;
   text-shadow: 2px 2px black;
 }
+
+.hidden {
+  display: none;
+}
+
+.message-container {
+  text-align: center;
+  background-color: #46f3f6;
+  border-radius: 5px;
+  outline: 5px solid #f57ba7;
+  outline-offset: 3px;
+  font-size: 24px;
+  color: #f57ba7;
+  text-shadow: 1px 1px black;
+}
+
 .buttons-container {
   display: flex;
   flex-direction: column;
@@ -29,8 +45,9 @@ h1 {
 }
 .roll-button-dice-container {
   display: flex;
+  min-width: 100%;
   align-items: center;
-  justify-content: center;
+  /* justify-content: center; */
   margin: 10px;
 }
 .die {
@@ -42,13 +59,15 @@ h1 {
 .dice-one,
 .dice-two {
   padding: 5px;
-  width: 50px;
+  width: 45px;
 }
 
 .clear-submit-buttons-container {
   display: flex;
   margin: 10px 0 5px 0;
+  align-self: flex-start;
 }
+
 button,
 .timer {
   color: #074040;
@@ -87,7 +106,7 @@ button,
   font-size: 2.5em;
   padding: 10px;
   text-align: center;
-  margin: 0 auto;
+  margin: 0 auto 0 130px;
 }
 .left-panel {
   display: flex;

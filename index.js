@@ -5,8 +5,15 @@ let boardWidth;
 let singlePlayer = true;
 
 const submitButton = document.querySelector(".button-submit");
-
 const clearButton = document.querySelector(".button-clear");
+const newGame = document.querySelector(".button-new");
+const messageDiv = document.querySelector(".message-container");
+const winLoseMessage = document.querySelector(".message");
+const diceRoller = document.querySelector(".button-roll");
+const diceOne = document.querySelector(".dice-one");
+const diceTwo = document.querySelector(".dice-two");
+const placeholders = document.querySelectorAll(".placeholder");
+const timerDiv = document.querySelector(".timer");
 
 function createGrid() {
     // gives us the option to expand the board dimensions in two player mode
@@ -36,11 +43,11 @@ function createGrid() {
 
 createGrid();
 
-// keep track of the cells that are clicked during each turn
-let clickedCells = [];
-
 // creates a node list containing each div with a class of "cell"
 const cells = document.querySelectorAll(".cell");
+
+// keep track of the cells that are clicked during each turn
+let clickedCells = [];
 
 // shade cells on the grid
 function shade(event) {
@@ -54,15 +61,34 @@ clearButton.addEventListener("click", () => {
     clickedCells.forEach((cell) => {
         cell.classList.toggle("shaded");
     });
+    clickedCells = [];
 });
 
-// DICE ROLLER
-const diceRoller = document.querySelector(".button-roll");
-const diceOne = document.querySelector(".dice-one");
-const diceTwo = document.querySelector(".dice-two");
-const placeholders = document.querySelectorAll(".placeholder");
+// FULL GRID WIN CONDITION
+// create an array from the cells node list
+const cellsArray = Array.from(cells);
 
-diceRoller.addEventListener("click", handleRollButtonClick)
+// check if the whole grid is shaded
+const checkIfAllShaded = () => {
+    // checks if every cell in the array contains the shaded class; returns a boolean
+    const allShaded = cellsArray.every((cell) => cell.classList.contains("shaded"));
+    if(allShaded) {
+        console.log("you win!")
+        newGame.classList.remove("hidden");
+        messageDiv.classList.remove("hidden");
+        winLoseMessage.innerText = "🎉 You win! 🥳";
+        clearButton.style.display = "none";
+        submitButton.style.display = "none";
+        diceRoller.style.display = "none";
+        diceOne.style.display = "none";
+        diceTwo.style.display = "none";
+        timerDiv.style.display = "none";
+    }
+}
+
+
+// DICE ROLLER
+diceRoller.addEventListener("click", handleRollButtonClick);
 
 function handleRollButtonClick() {
     // when the roll button is clicked, generate random numbers between 1 and 6 for each of the die
@@ -86,19 +112,19 @@ function handleRollButtonClick() {
 
     // submit button is only clickable AFTER the die are rolled
     // remove the click event listener from every cell in the clickedCells array after the submit button is clicked
-    submitButton.addEventListener("click", function () {
+    submitButton.addEventListener("click", function () { 
         clickedCells.forEach((clickedCell) =>
-        clickedCell.removeEventListener("click", shade)
+            clickedCell.removeEventListener("click", shade)
         );
         // empty out the array so the submitted cells don't get cleared if the clear button is clicked
         clickedCells = [];
+        checkIfAllShaded();
+        count = 0;
     });
 }
 
-
 //timer
 var timer = 60;
-
 var interval = setInterval(function() {
     timer--;
     $('.timer').text(timer);
@@ -110,7 +136,7 @@ var interval = setInterval(function() {
 // lose condition of forfeiting two consecutive turns
 let forfeitTurnPoints = 0;
 let count = 0; 
-diceButton.addEventListener("click", function () {
+diceRoller.addEventListener("click", function () {
     // const count = 0; this should have been a global function so outside of the event lister.
     count++;
     if (count === 2) {
@@ -164,6 +190,3 @@ const totalPoints = function () {
     totalPointsTracker.innerHTML = forfeitTurnPoints.length + fullGridPoints.length; // ?? adding the total wins and losses
 
 };
-
-
-// checking something with Elizabeth
