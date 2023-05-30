@@ -86,6 +86,18 @@ const checkIfAllShaded = () => {
     }
 }
 
+// NEW GAME BUTTON
+const newGamebutton = document.querySelector(".button-new");  
+newGamebutton.addEventListener("click", function () {
+//clear the leaderboard:
+    
+//clear the grid:
+    clickedCells.forEach((cell) => {cell.classList.toggle("shaded");});
+    clickedCells = [];
+}); 
+
+
+
 
 // DICE ROLLER
 diceRoller.addEventListener("click", handleRollButtonClick);
