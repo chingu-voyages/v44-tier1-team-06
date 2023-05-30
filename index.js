@@ -131,6 +131,10 @@ var interval = setInterval(function() {
     if (timer === 0) clearInterval(interval);
 }, 1000);
 
+function resetTimer() {
+    timer=61;
+};
+
 // Leaderboard Section
 
 // lose condition of forfeiting two consecutive turns
@@ -187,3 +191,4 @@ const totalPoints = function () {
     totalPointsTracker.innerHTML = forfeitTurnPoints.length + fullGridPoints.length; // Not sure if this is correct.  Will have to ask.
 
 };
+
