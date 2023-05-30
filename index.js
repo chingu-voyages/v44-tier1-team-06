@@ -151,7 +151,6 @@ let fullGridPoints = 0;
 
 //  Icon section to see number of points when hovering over icon
 
-// watch a vdieo about how to do the leaderboard
 const forfeitIcon = document.getElementById("fa-solid fa-font-awesome small-icon");
 
 forfeitIcon.addEventListener("mousemover", function () {
@@ -167,26 +166,24 @@ fullGridIcon.addEventListener("mouseover", function () {
 const totalIcon = document.getElementById("");
 
 totalIcon.addEventListener("mouseover", function () {
-    totalIcon.innerHTML
+    totalIcon.innerHTML // ??
 })
-
-
 
 
 // Point tracking section
 
 const lossPointsTotal = function () {
-    const losePointsTracker = document.getElementById("forfeit-scenario");
+    const losePointsTracker = document.getElementById("losePointsTracker");
     losePointsTracker.innerHTML = forfeitTurnPoints.length;
 }
 
 const winPointsTotal = function () {
-    const winPointsTracker = document.getElementById("full-grid-scenario");
+    const winPointsTracker = document.getElementById("winPointsTracker");
     winPointsTracker.innerHTML = fullGridPoints.length;
 }
 
 const totalPoints = function () {
-    const totalPointsTracker = document.getElementById("tally-win-lose")
+    const totalPointsTracker = document.getElementById("totalPointsTracker")
     totalPointsTracker.innerHTML = forfeitTurnPoints.length + fullGridPoints.length; // ?? adding the total wins and losses
 
 };
