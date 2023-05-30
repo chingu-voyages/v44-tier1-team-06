@@ -155,6 +155,7 @@ let fullGridPoints = 0; // This is just a placeholder for working on the icons a
 
 //  Icon section to see number of points when hovering over icon
 
+// Please look at this section because the points aren't appearing when the mouse is hovering on the icons.
 const forfeitIcon = document.getElementById("fa-solid fa-font-awesome small-icon");  // Ask if this is the right icon to use.
 
 forfeitIcon.addEventListener("mousemover", function () {
@@ -174,8 +175,9 @@ totalIcon.addEventListener("mouseover", function () {
 })
 
 
-// Point tracking section
+// Point tracking section 
 
+// please look at this section because the points aren't appearing on the leaderboard.
 const lossPointsTotal = function () {
     const losePointsTracker = document.getElementById("losePointsTracker");
     losePointsTracker.innerHTML = forfeitTurnPoints.length;
