@@ -145,14 +145,13 @@ diceRoller.addEventListener("click", function () {
     } 
 });
 
-// win condition of the whole grid being shaded.
-let fullGridPoints = 0;
+// win condition of the whole grid being shaded.  Carol is working on this one I think?
+let fullGridPoints = 0; // This is just a placeholder for working on the icons and the point trackers.
 
 
 //  Icon section to see number of points when hovering over icon
 
-// watch a vdieo about how to do the leaderboard
-const forfeitIcon = document.getElementById("fa-solid fa-font-awesome small-icon");
+const forfeitIcon = document.getElementById("fa-solid fa-font-awesome small-icon");  // Ask if this is the right icon to use.
 
 forfeitIcon.addEventListener("mousemover", function () {
     forfeitIcon.innerHTML = forfeitTurnLosses.length;
@@ -167,26 +166,24 @@ fullGridIcon.addEventListener("mouseover", function () {
 const totalIcon = document.getElementById("");
 
 totalIcon.addEventListener("mouseover", function () {
-    totalIcon.innerHTML
+    totalIcon.innerHTML // Ask about this one.  I might have to add an array like the other point trackers.
 })
-
-
 
 
 // Point tracking section
 
 const lossPointsTotal = function () {
-    const losePointsTracker = document.getElementById("forfeit-scenario");
+    const losePointsTracker = document.getElementById("losePointsTracker");
     losePointsTracker.innerHTML = forfeitTurnPoints.length;
 }
 
 const winPointsTotal = function () {
-    const winPointsTracker = document.getElementById("full-grid-scenario");
+    const winPointsTracker = document.getElementById("winPointsTracker");
     winPointsTracker.innerHTML = fullGridPoints.length;
 }
 
 const totalPoints = function () {
-    const totalPointsTracker = document.getElementById("tally-win-lose")
-    totalPointsTracker.innerHTML = forfeitTurnPoints.length + fullGridPoints.length; // ?? adding the total wins and losses
+    const totalPointsTracker = document.getElementById("totalPointsTracker")
+    totalPointsTracker.innerHTML = forfeitTurnPoints.length + fullGridPoints.length; // Not sure if this is correct.
 
 };
