@@ -184,6 +184,6 @@ const winPointsTotal = function () {
 
 const totalPoints = function () {
     const totalPointsTracker = document.getElementById("totalPointsTracker")
-    totalPointsTracker.innerHTML = forfeitTurnPoints.length + fullGridPoints.length; // Not sure if this is correct.
+    totalPointsTracker.innerHTML = forfeitTurnPoints.length + fullGridPoints.length; // Not sure if this is correct.  Will have to ask.
 
 };
