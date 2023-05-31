@@ -144,19 +144,39 @@ function resetTimer() {
 
 // lose condition of forfeiting two consecutive turns
 let forfeitTurnPoints = 0;
-let count = 0; 
+let count = 0; // this should have been a global function so outside of the event lister.
 diceRoller.addEventListener("click", function () {
     count++;
     if (count === 2) {
         console.log("You lose!") 
         forfeitTurnPoints++;
-    } 
+        count = 0 // Reset the count after losing
+    } else {
+        // Reset the count if the player clicked the dice button within two turns
+        clearTimeout(resetCount);
+        const resetCount = setTimeout(() => {
+            count = 0;
+        }, 10000);
+    }
 });
 
-// const count = 0; this should have been a global function so outside of the event lister.
 
-// win condition of the whole grid being shaded.  Carol is working on this one I think?
-let fullGridPoints = 0; // This is just a placeholder for working on the icons and the point trackers.
+// win condition of the whole grid being shaded.
+
+// Variable to store the win points
+let winPoints = 0; 
+
+// Function to update win points
+const updatedWinPoints = () => {
+    winPoints++; // Increment win points
+};
+
+// check if the whole grid is shaded
+const checkIfAllShaded = cellsArray.every((cell) => cell.classList.contains("shaded"));
+if (allShaded) {
+    console.log("you win!");
+    updatedWinPoints();
+};
 
 
 //  Icon section to see number of points when hovering over icon
@@ -184,6 +204,7 @@ totalIcon.addEventListener("mouseover", function () {
 
 const lossPointsTotal = function () {
     const losePointsTracker = document.getElementById("losePointsTracker");
+    // make an if statement is that the number starts at 0 and then changes to the number of the points.  This will help me know if the losePointsTotal function is working.
     losePointsTracker.innerHTML = forfeitTurnPoints.length;
 }
 
