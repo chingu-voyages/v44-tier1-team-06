@@ -90,7 +90,7 @@ const checkIfAllShaded = () => {
 const newGamebutton = document.querySelector(".button-new");  
 newGamebutton.addEventListener("click", function () {
 //clear the leaderboard:
-    
+    //KEEP STUDYING CODE TO UNDERSTAND
 //clear the grid:
     clickedCells.forEach((cell) => {cell.classList.toggle("shaded");});
     clickedCells = [];
