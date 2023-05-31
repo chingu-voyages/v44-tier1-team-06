@@ -146,13 +146,14 @@ function resetTimer() {
 let forfeitTurnPoints = 0;
 let count = 0; 
 diceRoller.addEventListener("click", function () {
-    // const count = 0; this should have been a global function so outside of the event lister.
     count++;
     if (count === 2) {
         console.log("You lose!") 
         forfeitTurnPoints++;
     } 
 });
+
+// const count = 0; this should have been a global function so outside of the event lister.
 
 // win condition of the whole grid being shaded.  Carol is working on this one I think?
 let fullGridPoints = 0; // This is just a placeholder for working on the icons and the point trackers.
@@ -163,7 +164,7 @@ let fullGridPoints = 0; // This is just a placeholder for working on the icons a
 const forfeitIcon = document.getElementById("fa-solid fa-font-awesome small-icon");  // Ask if this is the right icon to use.
 
 forfeitIcon.addEventListener("mousemover", function () {
-    forfeitIcon.innerHTML = forfeitTurnLosses.length;
+    forfeitIcon.innerHTML = forfeitTurnPoints.length;
 }); 
 
 const fullGridIcon = document.getElementById("fa-solid fa-square small-icon");
@@ -186,10 +187,12 @@ const lossPointsTotal = function () {
     losePointsTracker.innerHTML = forfeitTurnPoints.length;
 }
 
+/*
 const winPointsTotal = function () {
     const winPointsTracker = document.getElementById("winPointsTracker");
     winPointsTracker.innerHTML = fullGridPoints.length;
 }
+*/
 
 const totalPoints = function () {
     const totalPointsTracker = document.getElementById("totalPointsTracker")
