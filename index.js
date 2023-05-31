@@ -14,6 +14,7 @@ const diceOne = document.querySelector(".dice-one");
 const diceTwo = document.querySelector(".dice-two");
 const placeholders = document.querySelectorAll(".placeholder");
 const timerDiv = document.querySelector(".timer");
+const diceDiv = document.querySelector(".roll-button-dice-container");
 
 function createGrid() {
     // gives us the option to expand the board dimensions in two player mode
@@ -91,6 +92,10 @@ const checkIfAllShaded = () => {
 diceRoller.addEventListener("click", handleRollButtonClick);
 
 function handleRollButtonClick() {
+    // adjust CSS
+    diceDiv.style.justifyContent = "flex-start";
+    diceDiv.style.paddingLeft = "75px";
+
     // when the roll button is clicked, generate random numbers between 1 and 6 for each of the die
     let diceOneValue = Math.floor(Math.random() * 6) + 1;
     let diceTwoValue = Math.floor(Math.random() * 6) + 1;
