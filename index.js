@@ -150,7 +150,7 @@ function resetTimer() {
 // Leaderboard Section
 
 // lose condition of forfeiting two consecutive turns
-let forfeitTurnPoints = 0;
+let forfeitTurnPoints = 3;
 let count = 0; 
 diceRoller.addEventListener("click", function () {
     // const count = 0; this should have been a global function so outside of the event lister.
