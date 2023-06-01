@@ -1,3 +1,4 @@
+// GRID CONTAINER
 const container = document.querySelector(".container");
 
 let boardHeight;
@@ -15,6 +16,8 @@ const diceTwo = document.querySelector(".dice-two");
 const placeholders = document.querySelectorAll(".placeholder");
 const timerDiv = document.querySelector(".timer");
 const diceDiv = document.querySelector(".roll-button-dice-container");
+const noMatchMessage = document.querySelector(".no-match");
+let closeButton = document.getElementById("close-button");
 
 
 function createGrid() {
@@ -101,6 +104,8 @@ const checkIfAllShaded = () => {
 
 // DICE ROLLER
 diceRoller.addEventListener("click", handleRollButtonClick);
+let diceOneValue;
+let diceTwoValue;
 
 function handleRollButtonClick() {
     // adjust CSS
@@ -108,8 +113,8 @@ function handleRollButtonClick() {
     diceDiv.style.paddingLeft = "75px";
 
     // when the roll button is clicked, generate random numbers between 1 and 6 for each of the die
-    let diceOneValue = Math.floor(Math.random() * 6) + 1;
-    let diceTwoValue = Math.floor(Math.random() * 6) + 1;
+    diceOneValue = Math.floor(Math.random() * 6) + 1;
+    diceTwoValue = Math.floor(Math.random() * 6) + 1;
 
     // set the src attribute of each dice image depending on the randomly generated number
     let diceOneSrc = `img/dice${diceOneValue}.png`;
@@ -120,35 +125,42 @@ function handleRollButtonClick() {
     // hide the placeholders when the die are rolled
     placeholders.forEach(placeholder => placeholder.style.display = "none");
 
+    // ensures that there are no duplicate event listeners on the cells
+    cells.forEach((cell) => {
+        cell.removeEventListener("click", shade);
+    });
+
     // only AFTER the roll button is clicked, shade a cell when clicked and push that cell to the clickedCells array
     cells.forEach((cell) => {
         cell.addEventListener("click", shade);
     });
-
-    // submit button is only clickable AFTER the die are rolled
-    // remove the click event listener from every cell in the clickedCells array after the submit button is clicked
-    submitButton.addEventListener("click", function () { 
-        console.log("submission:");
-        const product = diceOneValue * diceTwoValue;
-        const clickedCellsCurrentTurn = clickedCells.slice();
-
-
-        console.log(`product: ${product}`)
-        console.log(`length of clickedCells array: ${clickedCells.length}`);
-        console.log(`length of clickedCellsCurrentTurn array: ${clickedCellsCurrentTurn.length}`);
-
-        if(product !== clickedCellsCurrentTurn.length){
-            console.log("doesn't match");
-        } else {
-            console.log("match");
-            // empty out the array so the submitted cells don't get cleared if the clear button is clicked
-            clickedCells = [];
-            checkIfAllShaded();
-            count = 0;
-        }
-        
-    });
 }
+
+submitButton.addEventListener("click", handleSubmitButtonClick);
+
+function handleSubmitButtonClick() {
+    console.log("submission:");
+    const product = diceOneValue * diceTwoValue;
+    const clickedCellsCurrentTurn = [...clickedCells];
+
+    console.log(`product: ${product}`)
+    console.log(`length of clickedCells array: ${clickedCells.length}`);
+    console.log(`length of clickedCellsCurrentTurn array: ${clickedCellsCurrentTurn.length}`);
+
+    if (product !== clickedCellsCurrentTurn.length) {
+        console.log("doesn't match");
+        noMatchMessage.classList.remove("hidden");
+    } else {
+        console.log("match");
+        clickedCells = [];
+        checkIfAllShaded();
+    }
+}
+
+closeButton.addEventListener("click", function () {
+    noMatchMessage.classList.add("hidden"); 
+});
+
 
 //timer
 var timer = 60;
@@ -166,14 +178,14 @@ function resetTimer() {
 
 // lose condition of forfeiting two consecutive turns
 let forfeitTurnPoints = 0;
-let count = 0; 
-diceRoller.addEventListener("click", function () {
-    count++;
-    if (count === 2) {
-        console.log("You lose!") 
-        forfeitTurnPoints++;
-    } 
-});
+// let count = 0; 
+// diceRoller.addEventListener("click", function () {
+//     count++;
+//     if (count === 2) {
+//         console.log("You lose!") 
+//         forfeitTurnPoints++;
+//     } 
+// });
 
 // const count = 0; this should have been a global function so outside of the event lister.
 
