@@ -1,3 +1,4 @@
+// GRID CONTAINER
 const container = document.querySelector(".container");
 
 let boardHeight;
@@ -15,6 +16,9 @@ const diceTwo = document.querySelector(".dice-two");
 const placeholders = document.querySelectorAll(".placeholder");
 const timerDiv = document.querySelector(".timer");
 const diceDiv = document.querySelector(".roll-button-dice-container");
+const noMatchMessage = document.querySelector(".no-match");
+let closeButton = document.getElementById("close-button");
+
 
 function createGrid() {
     // gives us the option to expand the board dimensions in two player mode
@@ -53,14 +57,25 @@ let clickedCells = [];
 // shade cells on the grid
 function shade(event) {
     let targetCell = event.target;
-    targetCell.classList.toggle("shaded");
-    clickedCells.push(targetCell);
+    if (targetCell.classList.contains("shaded")) {
+        targetCell.classList.remove("shaded");
+        // check if the cell is already in the clickedCells array
+        const index = clickedCells.indexOf(targetCell);
+        if (index > -1) {
+            // if it is, remove it from the array
+            clickedCells.splice(index, 1);
+        }
+    } else {
+        // if it's not in the array, add it to the clickedCells arry and shade the cell
+        targetCell.classList.add("shaded");
+        clickedCells.push(targetCell);
+    }
 }
 
 // use the clear button to unshade the cells that were just clicked (but not submitted) so the user can try a different combo of cells
 clearButton.addEventListener("click", () => {
     clickedCells.forEach((cell) => {
-        cell.classList.toggle("shaded");
+        cell.classList.remove("shaded");
     });
     clickedCells = [];
 });
@@ -78,18 +93,19 @@ const checkIfAllShaded = () => {
         newGame.classList.remove("hidden");
         messageDiv.classList.remove("hidden");
         winLoseMessage.innerText = "🎉 You win! 🥳";
-        clearButton.style.display = "none";
-        submitButton.style.display = "none";
-        diceRoller.style.display = "none";
-        diceOne.style.display = "none";
-        diceTwo.style.display = "none";
+        clearButton.classList.add("hidden");
+        submitButton.classList.add("hidden");
+        diceRoller.classList.add("hidden");
+        diceOne.classList.add("hidden");
+        diceTwo.classList.add("hidden");
         timerDiv.style.display = "none";
     }
 }
 
-
 // DICE ROLLER
 diceRoller.addEventListener("click", handleRollButtonClick);
+let diceOneValue;
+let diceTwoValue;
 
 function handleRollButtonClick() {
     // adjust CSS
@@ -97,36 +113,54 @@ function handleRollButtonClick() {
     diceDiv.style.paddingLeft = "75px";
 
     // when the roll button is clicked, generate random numbers between 1 and 6 for each of the die
-    let diceOneValue = Math.floor(Math.random() * 6) + 1;
-    let diceTwoValue = Math.floor(Math.random() * 6) + 1;
+    diceOneValue = Math.floor(Math.random() * 6) + 1;
+    diceTwoValue = Math.floor(Math.random() * 6) + 1;
 
     // set the src attribute of each dice image depending on the randomly generated number
     let diceOneSrc = `img/dice${diceOneValue}.png`;
     diceOne.setAttribute('src', diceOneSrc);
-
     let diceTwoSrc = `img/dice${diceTwoValue}.png`;
     diceTwo.setAttribute('src', diceTwoSrc);
 
     // hide the placeholders when the die are rolled
     placeholders.forEach(placeholder => placeholder.style.display = "none");
 
+    // ensures that there are no duplicate event listeners on the cells
+    cells.forEach((cell) => {
+        cell.removeEventListener("click", shade);
+    });
+
     // only AFTER the roll button is clicked, shade a cell when clicked and push that cell to the clickedCells array
     cells.forEach((cell) => {
         cell.addEventListener("click", shade);
     });
+}
 
-    // submit button is only clickable AFTER the die are rolled
-    // remove the click event listener from every cell in the clickedCells array after the submit button is clicked
-    submitButton.addEventListener("click", function () { 
-        clickedCells.forEach((clickedCell) =>
-            clickedCell.removeEventListener("click", shade)
-        );
-        // empty out the array so the submitted cells don't get cleared if the clear button is clicked
+submitButton.addEventListener("click", handleSubmitButtonClick);
+
+function handleSubmitButtonClick() {
+    console.log("submission:");
+    const product = diceOneValue * diceTwoValue;
+    const clickedCellsCurrentTurn = [...clickedCells];
+
+    console.log(`product: ${product}`)
+    console.log(`length of clickedCells array: ${clickedCells.length}`);
+    console.log(`length of clickedCellsCurrentTurn array: ${clickedCellsCurrentTurn.length}`);
+
+    if (product !== clickedCellsCurrentTurn.length) {
+        console.log("doesn't match");
+        noMatchMessage.classList.remove("hidden");
+    } else {
+        console.log("match");
         clickedCells = [];
         checkIfAllShaded();
-        count = 0;
-    });
+    }
 }
+
+closeButton.addEventListener("click", function () {
+    noMatchMessage.classList.add("hidden"); 
+});
+
 
 //timer
 var timer = 60;
@@ -144,14 +178,14 @@ function resetTimer() {
 
 // lose condition of forfeiting two consecutive turns
 let forfeitTurnPoints = 0;
-let count = 0; 
-diceRoller.addEventListener("click", function () {
-    count++;
-    if (count === 2) {
-        console.log("You lose!") 
-        forfeitTurnPoints++;
-    } 
-});
+// let count = 0; 
+// diceRoller.addEventListener("click", function () {
+//     count++;
+//     if (count === 2) {
+//         console.log("You lose!") 
+//         forfeitTurnPoints++;
+//     } 
+// });
 
 // const count = 0; this should have been a global function so outside of the event lister.
 
