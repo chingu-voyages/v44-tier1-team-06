@@ -16,6 +16,7 @@ const placeholders = document.querySelectorAll(".placeholder");
 const timerDiv = document.querySelector(".timer");
 const diceDiv = document.querySelector(".roll-button-dice-container");
 
+
 function createGrid() {
     // gives us the option to expand the board dimensions in two player mode
     if (singlePlayer) {
@@ -84,6 +85,7 @@ const checkIfAllShaded = () => {
         diceOne.style.display = "none";
         diceTwo.style.display = "none";
         timerDiv.style.display = "none";
+        updatedWinPoints();
     }
 }
 
@@ -144,59 +146,90 @@ function resetTimer() {
 
 // lose condition of forfeiting two consecutive turns
 let forfeitTurnPoints = 0;
-let count = 0; 
+let count = 0; // this should have been a global function so outside of the event lister.
 diceRoller.addEventListener("click", function () {
     count++;
     if (count === 2) {
         console.log("You lose!") 
         forfeitTurnPoints++;
-    } 
+        count = 0 // Reset the count after losing
+    } else {
+        // Reset the count if the player clicked the dice button within two turns
+        clearTimeout(resetCount);
+        const resetCount = setTimeout(() => {
+            count = 0;
+        }, 10000);
+    }
 });
 
-// const count = 0; this should have been a global function so outside of the event lister.
+// win condition of the whole grid being shaded.
 
-// win condition of the whole grid being shaded.  Carol is working on this one I think?
-let fullGridPoints = 0; // This is just a placeholder for working on the icons and the point trackers.
+// Variable to store the win points
+let winPoints = 0; 
+
+// Function to update win points
+const updatedWinPoints = () => {
+    winPoints++; // Increment win points
+};
+
+/* check if the whole grid is shaded This is up at the top of the page.
+const checkIfAllShaded = cellsArray.every((cell) => cell.classList.contains("shaded"));
+if (allShaded) {
+    console.log("you win!");
+    
+};
+*/
+
+// Point tracking section
+
+const lossPointsTotal = function () {
+    const losePointsTracker = document.getElementById("losePointsTracker");
+    const forfeitPoints = forfeitTurnPoints.length;
+
+    losePointsTracker.innerHTML = forfeitPoints;
+};
+
+const winPointsTotal = function () {
+    const winPointsTracker = document.getElementById("winPointsTracker");
+    const fullGridPoints = fullGridPoints.length;
+    
+    winPointsTracker.innerHTML = fullGridPoints;
+}
+
+
+const totalPoints = function () {
+    const totalPointsTracker = document.getElementById("totalPointsTracker")
+    const forfeitPoints = forfeitTurnPoints.length;
+    const fullGridPoints = winPoints;
+
+    const totalPoints = forfeitPoints + fullGridPoints;
+    totalPointsTracker.innerHTML = totalPoints;
+
+};
+
+
+
 
 
 //  Icon section to see number of points when hovering over icon
 
-const forfeitIcon = document.getElementById("fa-solid fa-font-awesome small-icon");  // Ask if this is the right icon to use.
+const forfeitIcon = document.getElementById("fa-solid fa-font-awesome small-icon"); 
 
 forfeitIcon.addEventListener("mousemover", function () {
     forfeitIcon.innerHTML = forfeitTurnPoints.length;
 }); 
 
 const fullGridIcon = document.getElementById("fa-solid fa-square small-icon");
-
 fullGridIcon.addEventListener("mouseover", function () {
     fullGridIcon.innerHTML = filledGridWin.length
 });
 
-const totalIcon = document.getElementById("");
-
+const totalIcon = document.getElementById("fa-solid fa-trophy big-icon");
 totalIcon.addEventListener("mouseover", function () {
-    totalIcon.innerHTML // Ask about this one.  I might have to add an array like the other point trackers.
+    totalIcon.innerHTML 
+
 })
 
 
-// Point tracking section
 
-const lossPointsTotal = function () {
-    const losePointsTracker = document.getElementById("losePointsTracker");
-    losePointsTracker.innerHTML = forfeitTurnPoints.length;
-}
-
-/*
-const winPointsTotal = function () {
-    const winPointsTracker = document.getElementById("winPointsTracker");
-    winPointsTracker.innerHTML = fullGridPoints.length;
-}
-*/
-
-const totalPoints = function () {
-    const totalPointsTracker = document.getElementById("totalPointsTracker")
-    totalPointsTracker.innerHTML = forfeitTurnPoints.length + fullGridPoints.length; // Not sure if this is correct.  Will have to ask.
-
-};
 
