@@ -80,6 +80,13 @@ clearButton.addEventListener("click", () => {
     clickedCells = [];
 });
 
+// CLEAR GRID FUNCTION
+function clearGrid() {
+    cells.forEach((cell) => {
+        cell.classList.remove("shaded");
+    });
+}
+
 // FULL GRID WIN CONDITION
 // create an array from the cells node list
 const cellsArray = Array.from(cells);
@@ -99,8 +106,28 @@ const checkIfAllShaded = () => {
         diceOne.classList.add("hidden");
         diceTwo.classList.add("hidden");
         timerDiv.style.display = "none";
+        // adds a point to total wins
+        totalWins += 1;
+        // adds a point to full grid wins
+        winsFullGrid += 1;
     }
 }
+
+// -------- NEW GAME BUTTON -------- //
+const newGamebutton = document.querySelector(".button-new");  
+newGamebutton.addEventListener("click", function () {
+// reset the timer:
+resetTimer();
+//clear the leaderboard:
+ totalWins = 0;
+ totalLoses = 0;
+ losesTimer = 0;
+ losesForfeit = 0;
+ winsFullGrid = 0;
+ displayScore();
+//clear the grid:
+clearGrid();
+}); 
 
 // DICE ROLLER
 diceRoller.addEventListener("click", handleRollButtonClick);
@@ -173,19 +200,23 @@ var interval = setInterval(function() {
 function resetTimer() {
     timer=61;
 };
+// function timesUp() {
+    
+// }
+// timesUp();
 
 // Leaderboard Section
 
 // lose condition of forfeiting two consecutive turns
-let forfeitTurnPoints = 0;
-// let count = 0; 
-// diceRoller.addEventListener("click", function () {
-//     count++;
-//     if (count === 2) {
-//         console.log("You lose!") 
-//         forfeitTurnPoints++;
-//     } 
-// });
+/* let forfeitTurnPoints = 0;
+ let count = 0; 
+ diceRoller.addEventListener("click", function () {
+     count++;
+     if (count === 2) {
+         console.log("You lose!") 
+         forfeitTurnPoints++;
+     } 
+ });
 
 // const count = 0; this should have been a global function so outside of the event lister.
 
@@ -221,16 +252,40 @@ const lossPointsTotal = function () {
     losePointsTracker.innerHTML = forfeitTurnPoints.length;
 }
 
-/*
+
 const winPointsTotal = function () {
     const winPointsTracker = document.getElementById("winPointsTracker");
     winPointsTracker.innerHTML = fullGridPoints.length;
 }
-*/
+
 
 const totalPoints = function () {
     const totalPointsTracker = document.getElementById("totalPointsTracker")
     totalPointsTracker.innerHTML = forfeitTurnPoints.length + fullGridPoints.length; // Not sure if this is correct.  Will have to ask.
 
 };
+*/
+// -------- LEADERBOARD -------- //
+// fetching icons
+const totalWinsIcon = document.getElementById("totalWinsIcon")
+const totalLosesIcon = document.getElementById("totalLosesIcon")
+const losesTimerIcon = document.getElementById("losesTimerIcon")
+const losesForfeitIcon = document.getElementById("losesForfeitIcon")
+const winsFullGridIcon = document.getElementById("winsFullGridIcon")
 
+// declaring initial values for all points
+let totalWins = 1;
+let totalLoses = 2;
+let losesTimer = 3;
+let losesForfeit = 4;
+let winsFullGrid = 5;
+// display functions
+
+function displayScore() {
+    totalWinsIcon.innerText = totalWins;
+    totalLosesIcon.innerText = totalLoses;
+    losesTimerIcon.innerText = losesTimer;
+    losesForfeitIcon.innerText = losesForfeit;
+    winsFullGridIcon.innerText = winsFullGrid;
+}
+displayScore();
