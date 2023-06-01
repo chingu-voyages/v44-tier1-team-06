@@ -99,6 +99,7 @@ const checkIfAllShaded = () => {
         diceOne.classList.add("hidden");
         diceTwo.classList.add("hidden");
         timerDiv.style.display = "none";
+        updatedWinPoints();
     }
 }
 
@@ -178,59 +179,70 @@ function resetTimer() {
 
 // lose condition of forfeiting two consecutive turns
 let forfeitTurnPoints = 0;
-// let count = 0; 
-// diceRoller.addEventListener("click", function () {
-//     count++;
-//     if (count === 2) {
-//         console.log("You lose!") 
-//         forfeitTurnPoints++;
-//     } 
-// });
+let count = 0; 
+diceRoller.addEventListener("click", function () {
+    count++;
+    if (count === 2) {
+        console.log("You lose!") 
+        forfeitTurnPoints++;
+        count = 0 // Reset the count after losing
+    } else {
+        // Reset the count if the player clicked the dice button within two turns
+        clearTimeout(resetCount);
+        const resetCount = setTimeout(() => {
+            count = 0;
+        }, 10000);
+    }
+});
 
-// const count = 0; this should have been a global function so outside of the event lister.
+// Function to update lose points
+const updateLosePoints = () => {
+    const forfeitPoints = forfeitTurnPoints.length;
+    document.getElementById("losePointsTracker").innerHTML = forfeitPoints; // update losePointsTracker
+};
 
-// win condition of the whole grid being shaded.  Carol is working on this one I think?
-let fullGridPoints = 0; // This is just a placeholder for working on the icons and the point trackers.
+// win condition of the whole grid being shaded.
 
+// Variable to store the win points
+let winPoints = 0; 
+
+// Function to update win points
+const updatedWinPoints = () => {
+    winPoints++; // Increment win points
+    document.getElementById("winPointsTracker").innerHTML = winPoints; // update winPointsTracker
+};
+
+// function to update total points
+const updateTotalPoints = () => {
+    const forfeitPoints = forfeitTurnPoints.length;
+    const fullGridPoints = winPoints;
+    const totalPoints = forfeitPoints + fullGridPoints;
+    document.getElementById("totalPointsTracker").innerHTML = totalPoints // update totalPointsTracker
+};
 
 //  Icon section to see number of points when hovering over icon
 
-const forfeitIcon = document.getElementById("fa-solid fa-font-awesome small-icon");  // Ask if this is the right icon to use.
-
-forfeitIcon.addEventListener("mousemover", function () {
+const forfeitIcon = document.querySelector(".fa-font-awesome");
+forfeitIcon.addEventListener("mouseover", () => {
     forfeitIcon.innerHTML = forfeitTurnPoints.length;
-}); 
-
-const fullGridIcon = document.getElementById("fa-solid fa-square small-icon");
-
-fullGridIcon.addEventListener("mouseover", function () {
-    fullGridIcon.innerHTML = filledGridWin.length
+});
+forfeitIcon.addEventListener("mouseout", () => {
+    forfeitIcon.innerHTML = ""; // Reset icon text when mouse is removed
 });
 
-const totalIcon = document.getElementById("");
+const fullGridIcon = document.querySelector(".fa-square");
+fullGridIcon.addEventListener("mouseover", () => {
+    fullGridIcon.innerHTML = winPoints;
+});
+fullGridIcon.addEventListener("mouseout", () => {
+    fullGridIcon.innerHTML = ""; // Reset icon text when mouse is removed
+});
 
-totalIcon.addEventListener("mouseover", function () {
-    totalIcon.innerHTML // Ask about this one.  I might have to add an array like the other point trackers.
-})
-
-
-// Point tracking section
-
-const lossPointsTotal = function () {
-    const losePointsTracker = document.getElementById("losePointsTracker");
-    losePointsTracker.innerHTML = forfeitTurnPoints.length;
-}
-
-/*
-const winPointsTotal = function () {
-    const winPointsTracker = document.getElementById("winPointsTracker");
-    winPointsTracker.innerHTML = fullGridPoints.length;
-}
-*/
-
-const totalPoints = function () {
-    const totalPointsTracker = document.getElementById("totalPointsTracker")
-    totalPointsTracker.innerHTML = forfeitTurnPoints.length + fullGridPoints.length; // Not sure if this is correct.  Will have to ask.
-
-};
+const totalIcon = document.querySelector(".fa-trophy");
+totalIcon.addEventListener("mouseover", () => {
+    totalIcon.innerHTML = winPoints + forfeitTurnPoints.length;
+});
+totalIcon.addEventListener("mouseout", () => {
+    totalIcon.innerHTML = ""; // Reset icon text when mouse is removed
+});
 
