@@ -89,8 +89,15 @@ const checkIfAllShaded = () => {
 // NEW GAME BUTTON
 const newGamebutton = document.querySelector(".button-new");  
 newGamebutton.addEventListener("click", function () {
+// reset the timer:
+resetTimer();
 //clear the leaderboard:
-    
+ totalWins = 0;
+ totalLoses = 0;
+ losesTimer = 0;
+ losesForfeit = 0;
+ winsFullGrid = 0;
+ displayScore();   
 //clear the grid:
     clickedCells.forEach((cell) => {cell.classList.toggle("shaded");});
     clickedCells = [];
@@ -150,7 +157,7 @@ function resetTimer() {
 // Leaderboard Section
 
 // lose condition of forfeiting two consecutive turns
-let forfeitTurnPoints = 3;
+let forfeitTurnPoints = 0;
 let count = 0; 
 diceRoller.addEventListener("click", function () {
     // const count = 0; this should have been a global function so outside of the event lister.
