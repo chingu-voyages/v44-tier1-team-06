@@ -90,6 +90,10 @@ const checkIfAllShaded = () => {
     const allShaded = cellsArray.every((cell) => cell.classList.contains("shaded"));
     if(allShaded) {
         console.log("you win!")
+        fullGridPoints++;
+        totalWins++;
+        updatedFullGridPoints();
+        updateTotalWinPoints();
         newGame.classList.remove("hidden");
         messageDiv.classList.remove("hidden");
         winLoseMessage.innerText = "🎉 You win! 🥳";
@@ -99,8 +103,7 @@ const checkIfAllShaded = () => {
         diceOne.classList.add("hidden");
         diceTwo.classList.add("hidden");
         timerDiv.style.display = "none";
-        fullGridPoints++;
-        totalWins++;
+        
     }
 }
 
@@ -149,6 +152,7 @@ function handleSubmitButtonClick() {
     console.log(`length of clickedCells array: ${clickedCells.length}`);
     console.log(`length of clickedCellsCurrentTurn array: ${clickedCellsCurrentTurn.length}`);
 
+    
     if (product !== clickedCellsCurrentTurn.length) {
         console.log("doesn't match");
         noMatchMessage.classList.remove("hidden");
@@ -157,6 +161,8 @@ function handleSubmitButtonClick() {
         clickedCells = [];
         checkIfAllShaded();
     }
+    
+    
 }
 
 closeButton.addEventListener("click", function () {
@@ -173,6 +179,8 @@ var interval = setInterval(function() {
     if (timer === 0) {
         timerPoints++;
         totalLoses++;
+        updateTimerPoints();
+        updateTotalLosePoints();
         clearInterval(interval)
     } 
 }, 1000);
@@ -183,6 +191,7 @@ function resetTimer() {
 
 // lose condition of forfeiting two consecutive turns
 
+
 let count = 0; 
 diceRoller.addEventListener("click", function () {
     count++;
@@ -190,6 +199,8 @@ diceRoller.addEventListener("click", function () {
         console.log("You lose!") 
         forfietPoints++;
         totalLoses++;
+        updateforfietPoints();
+        updateTotalLosePoints();
         count = 0 // Reset the count after losing
     } else {
         // Reset the count if the player clicked the dice button within two turns
@@ -199,6 +210,7 @@ diceRoller.addEventListener("click", function () {
         }, 10000);
     }
 });
+
 
 // Leaderboard Section
 
@@ -215,27 +227,27 @@ let totalWins = 0;
 
 // Function to update fullGrid points
 const updatedFullGridPoints = () => {
-    document.getElementById("fullGridPointsTracker").innerHTML = fullGridPoints; // update winPointsTracker
+    document.getElementById("fullGridPointsTracker").innerText = fullGridPoints; 
 };
 
 // Function to update forfiet points
 const updateforfietPoints = () => {
-    document.getElementById("forfeitPointsTracker").innerHTML = forfietPoints; // update losePointsTracker
+    document.getElementById("forfeitPointsTracker").innerText = forfietPoints; 
 };
 
 // function to update timer points
 const updateTimerPoints = () => {
-    document.getElementById("timerTracker").innerHTML = timerPoints;
+    document.getElementById("timerTracker").innerText = timerPoints;
 }
 
 // function to update total win points
 const updateTotalWinPoints = () => {
-    document.getElementById("totalWinsTracker").innerHTML = totalWins; // update totalWinsTracker
+    document.getElementById("totalWinsTracker").innerText = totalWins; 
 };
 
 // function to update total lose points
 const updateTotalLosePoints = () => {
-    document.getElementById("totalLosesTracker").innerHTML = totalLoses // update totalPointsTracker
+    document.getElementById("totalLosesTracker").innerText = totalLoses 
 };
 
 
@@ -243,41 +255,41 @@ const updateTotalLosePoints = () => {
 
 const forfeitIcon = document.querySelector(".fa-font-awesome");
 forfeitIcon.addEventListener("mouseover", () => {
-    forfeitIcon.innerHTML = forfietPoints;
+    forfeitIcon.innerText = forfietPoints;
 });
 forfeitIcon.addEventListener("mouseout", () => {
-    forfeitIcon.innerHTML = ""; // Reset icon text when mouse is removed
+    forfeitIcon.innerText = ""; // Reset icon text when mouse is removed
 });
 
 const fullGridIcon = document.querySelector(".fa-square");
 fullGridIcon.addEventListener("mouseover", () => {
-    fullGridIcon.innerHTML = fullGridPoints;
+    fullGridIcon.innerText = fullGridPoints;
 });
 fullGridIcon.addEventListener("mouseout", () => {
-    fullGridIcon.innerHTML = ""; // Reset icon text when mouse is removed
+    fullGridIcon.innerText = ""; // Reset icon text when mouse is removed
 });
 
 const timerIcon = document.querySelector(".fa-hourglass-end");
 timerIcon.addEventListener("mouseover", () => {
-  timerIcon.innerHTML = timerPoints;
+  timerIcon.innerText = timerPoints;
 });
 timerIcon.addEventListener("mouseout", () => {
-  timerIcon.innerHTML = "";
+  timerIcon.innerText = "";
 });
 
 const totalWinIcon = document.querySelector(".fa-trophy");
 totalWinIcon.addEventListener("mouseover", () => {
-  totalWinIcon.innerHTML = totalWins;
+  totalWinIcon.innerText = totalWins;
 });
 totalWinIcon.addEventListener("mouseout", () => {
-  totalWinIcon.innerHTML = "";
+  totalWinIcon.innerText = "";
 });
 
 const totalLoseIcon = document.querySelector(".fa-heart-crack");
 totalLoseIcon.addEventListener("mouseover", () => {
-    totalLoseIcon.innerHTML = totalLoses;
+    totalLoseIcon.innerText = totalLoses;
   });
   totalLoseIcon.addEventListener("mouseout", () => {
-    totalLoseIcon.innerHTML = "";
+    totalLoseIcon.innerText = "";
   });
 
