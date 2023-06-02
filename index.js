@@ -196,6 +196,7 @@ var interval = setInterval(function() {
     $('.timer').text(timer);
     if (timer === 0) {
         displayScore(losesTimer++)
+        displayScore(totalLoses++)
         clearInterval(interval);
     }
 }, 1000);
