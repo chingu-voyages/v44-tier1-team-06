@@ -107,9 +107,9 @@ const checkIfAllShaded = () => {
         diceTwo.classList.add("hidden");
         timerDiv.style.display = "none";
         // adds a point to total wins
-        totalWins += 1;
+        displayScore(totalWins++);
         // adds a point to full grid wins
-        winsFullGrid += 1;
+        displayScore(winsFullGrid++)
     }
 }
 
@@ -194,7 +194,10 @@ var timer = 60;
 var interval = setInterval(function() {
     timer--;
     $('.timer').text(timer);
-    if (timer === 0) clearInterval(interval);
+    if (timer === 0) {
+        displayScore(losesTimer++)
+        clearInterval(interval);
+    }
 }, 1000);
 
 function resetTimer() {
@@ -277,8 +280,8 @@ const winsFullGridIcon = document.getElementById("winsFullGridIcon")
 let totalWins = 1;
 let totalLoses = 2;
 let losesTimer = 3;
-let losesForfeit = 4;
-let winsFullGrid = 5;
+let losesForfeit = 5;
+let winsFullGrid = 4;
 // display functions
 
 function displayScore() {
