@@ -119,8 +119,9 @@ button,
   flex-direction: column;
 }
 .leaderboard {
-  padding: 20px;
+ /* padding: 20px; */
   display: flex;
+  height: 175px;
 }
 .big-icon {
   color: #f57ba7;

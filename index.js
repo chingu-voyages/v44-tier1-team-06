@@ -99,7 +99,8 @@ const checkIfAllShaded = () => {
         diceOne.classList.add("hidden");
         diceTwo.classList.add("hidden");
         timerDiv.style.display = "none";
-        updatedWinPoints();
+        fullGridPoints++;
+        totalWins++;
     }
 }
 
@@ -168,23 +169,27 @@ var timer = 60;
 var interval = setInterval(function() {
     timer--;
     $('.timer').text(timer);
-    if (timer === 0) clearInterval(interval);
+    if (timer === 0) clearInterval(interval)
+    if (timer === 0) {
+        timerPoints++;
+        totalLoses++;
+        clearInterval(interval)
+    } 
 }, 1000);
 
 function resetTimer() {
     timer=61;
 };
 
-// Leaderboard Section
-
 // lose condition of forfeiting two consecutive turns
-let forfeitTurnPoints = 0;
+
 let count = 0; 
 diceRoller.addEventListener("click", function () {
     count++;
     if (count === 2) {
         console.log("You lose!") 
-        forfeitTurnPoints++;
+        forfietPoints++;
+        totalLoses++;
         count = 0 // Reset the count after losing
     } else {
         // Reset the count if the player clicked the dice button within two turns
@@ -195,36 +200,50 @@ diceRoller.addEventListener("click", function () {
     }
 });
 
-// Function to update lose points
-const updateLosePoints = () => {
-    const forfeitPoints = forfeitTurnPoints.length;
-    document.getElementById("losePointsTracker").innerHTML = forfeitPoints; // update losePointsTracker
+// Leaderboard Section
+
+// variables to store the points
+
+let fullGridPoints = 0;
+let forfietPoints = 0;
+let timerPoints = 0;
+let totalLoses = 0;
+let totalWins = 0;
+
+
+// updating points section
+
+// Function to update fullGrid points
+const updatedFullGridPoints = () => {
+    document.getElementById("fullGridPointsTracker").innerHTML = fullGridPoints; // update winPointsTracker
 };
 
-// win condition of the whole grid being shaded.
-
-// Variable to store the win points
-let winPoints = 0; 
-
-// Function to update win points
-const updatedWinPoints = () => {
-    winPoints++; // Increment win points
-    document.getElementById("winPointsTracker").innerHTML = winPoints; // update winPointsTracker
+// Function to update forfiet points
+const updateforfietPoints = () => {
+    document.getElementById("forfeitPointsTracker").innerHTML = forfietPoints; // update losePointsTracker
 };
 
-// function to update total points
-const updateTotalPoints = () => {
-    const forfeitPoints = forfeitTurnPoints.length;
-    const fullGridPoints = winPoints;
-    const totalPoints = forfeitPoints + fullGridPoints;
-    document.getElementById("totalPointsTracker").innerHTML = totalPoints // update totalPointsTracker
+// function to update timer points
+const updateTimerPoints = () => {
+    document.getElementById("timerTracker").innerHTML = timerPoints;
+}
+
+// function to update total win points
+const updateTotalWinPoints = () => {
+    document.getElementById("totalWinsTracker").innerHTML = totalWins; // update totalWinsTracker
 };
+
+// function to update total lose points
+const updateTotalLosePoints = () => {
+    document.getElementById("totalLosesTracker").innerHTML = totalLoses // update totalPointsTracker
+};
+
 
 //  Icon section to see number of points when hovering over icon
 
 const forfeitIcon = document.querySelector(".fa-font-awesome");
 forfeitIcon.addEventListener("mouseover", () => {
-    forfeitIcon.innerHTML = forfeitTurnPoints.length;
+    forfeitIcon.innerHTML = forfietPoints;
 });
 forfeitIcon.addEventListener("mouseout", () => {
     forfeitIcon.innerHTML = ""; // Reset icon text when mouse is removed
@@ -232,17 +251,33 @@ forfeitIcon.addEventListener("mouseout", () => {
 
 const fullGridIcon = document.querySelector(".fa-square");
 fullGridIcon.addEventListener("mouseover", () => {
-    fullGridIcon.innerHTML = winPoints;
+    fullGridIcon.innerHTML = fullGridPoints;
 });
 fullGridIcon.addEventListener("mouseout", () => {
     fullGridIcon.innerHTML = ""; // Reset icon text when mouse is removed
 });
 
-const totalIcon = document.querySelector(".fa-trophy");
-totalIcon.addEventListener("mouseover", () => {
-    totalIcon.innerHTML = winPoints + forfeitTurnPoints.length;
+const timerIcon = document.querySelector(".fa-hourglass-end");
+timerIcon.addEventListener("mouseover", () => {
+  timerIcon.innerHTML = timerPoints;
 });
-totalIcon.addEventListener("mouseout", () => {
-    totalIcon.innerHTML = ""; // Reset icon text when mouse is removed
+timerIcon.addEventListener("mouseout", () => {
+  timerIcon.innerHTML = "";
 });
+
+const totalWinIcon = document.querySelector(".fa-trophy");
+totalWinIcon.addEventListener("mouseover", () => {
+  totalWinIcon.innerHTML = totalWins;
+});
+totalWinIcon.addEventListener("mouseout", () => {
+  totalWinIcon.innerHTML = "";
+});
+
+const totalLoseIcon = document.querySelector(".fa-heart-crack");
+totalLoseIcon.addEventListener("mouseover", () => {
+    totalLoseIcon.innerHTML = totalLoses;
+  });
+  totalLoseIcon.addEventListener("mouseout", () => {
+    totalLoseIcon.innerHTML = "";
+  });
 
