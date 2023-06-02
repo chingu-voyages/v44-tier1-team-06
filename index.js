@@ -17,7 +17,7 @@ const placeholders = document.querySelectorAll(".placeholder");
 const timerDiv = document.querySelector(".timer");
 const diceDiv = document.querySelector(".roll-button-dice-container");
 const noMatchMessage = document.querySelector(".no-match");
-let closeButton = document.getElementById("close-button");
+const closeButton = document.getElementById("close-button");
 
 
 function createGrid() {
@@ -57,6 +57,11 @@ let clickedCells = [];
 // shade cells on the grid
 function shade(event) {
     let targetCell = event.target;
+
+    if(targetCell.classList.contains("submitted")) {
+        return; // skip shading/unshading if the cell that's clicked has already been submitted in a previous turn
+    }
+
     if (targetCell.classList.contains("shaded")) {
         targetCell.classList.remove("shaded");
         // check if the cell is already in the clickedCells array
@@ -125,14 +130,12 @@ function handleRollButtonClick() {
     // hide the placeholders when the die are rolled
     placeholders.forEach(placeholder => placeholder.style.display = "none");
 
-    // ensures that there are no duplicate event listeners on the cells
+    // adds the shade event listener only to cells that haven't been shaded and submitted in previous turns
     cells.forEach((cell) => {
-        cell.removeEventListener("click", shade);
-    });
-
-    // only AFTER the roll button is clicked, shade a cell when clicked and push that cell to the clickedCells array
-    cells.forEach((cell) => {
-        cell.addEventListener("click", shade);
+        if(!cell.classList.contains("submitted") && !cell.dataset.listenerAdded) {
+            cell.addEventListener("click", shade);
+            cell.dataset.listenerAdded = true;
+        }
     });
 }
 
@@ -152,6 +155,10 @@ function handleSubmitButtonClick() {
         noMatchMessage.classList.remove("hidden");
     } else {
         console.log("match");
+        clickedCells.forEach((cell) => {
+            cell.classList.add("submitted");
+            cell.removeEventListener("click", shade);
+        })
         clickedCells = [];
         checkIfAllShaded();
     }
