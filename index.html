@@ -77,7 +77,14 @@
 
         <div class="no-match hidden">
             <h2>The number of squares you shaded does not match the product of the dice. Try again!</h2>
-            <i class="fa-solid fa-xmark" style="color: #050505;" id="close-button"></i>
+            <i class="fa-solid fa-xmark close-button" style="color: #050505;"></i>
+        </div>
+
+        <div class="skip-message hidden">
+            <h2>Shade a new array on the grid</h2>
+            <span>OR</span>
+            <button class="skip-button" onclick="skipTurn()">skip this turn</button>
+            <i class="fa-solid fa-xmark close-button" style="color: #050505;"></i>
         </div>
     </div>
     <footer>
