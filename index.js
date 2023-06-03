@@ -111,6 +111,7 @@ const checkIfAllShaded = () => {
     }
 }
 
+
 // CLEAR GRID FUNCTION
 function clearGrid() {
     cells.forEach((cell) => {
@@ -133,6 +134,7 @@ resetTimer();
 //clear the grid:
 clearGrid()
 }); 
+
 
 // DICE ROLLER
 diceRoller.addEventListener("click", handleRollButtonClick);
@@ -219,11 +221,13 @@ function resetTimer() {
 
 // variables to store the points
 
-let fullGridPoints = 1;
-let forfietPoints = 2;
-let timerPoints = 3;
-let totalLoses = 4;
-let totalWins = 5;
+
+let fullGridPoints = 0;
+let forfietPoints = 0;
+let timerPoints = 0;
+let totalLoses = 0;
+let totalWins = 0;
+
 
 
 // updating points section
