@@ -17,8 +17,12 @@ const placeholders = document.querySelectorAll(".placeholder");
 const timerDiv = document.querySelector(".timer");
 const diceDiv = document.querySelector(".roll-button-dice-container");
 const noMatchMessage = document.querySelector(".no-match");
-const closeButton = document.getElementById("close-button");
-
+const closeButtons = document.querySelectorAll(".close-button");
+const gridContainer = document.getElementById("grid-container");
+let newCellsShaded;
+let skips = 0;
+let skippedTurn;
+const skipMessage = document.querySelector(".skip-message");
 
 function createGrid() {
     // gives us the option to expand the board dimensions in two player mode
@@ -74,6 +78,7 @@ function shade(event) {
         // if it's not in the array, add it to the clickedCells arry and shade the cell
         targetCell.classList.add("shaded");
         clickedCells.push(targetCell);
+        //cellsShaded = gridContainer.getElementsByClassName("shaded");
     }
 }
 
@@ -121,27 +126,48 @@ function handleRollButtonClick() {
     diceDiv.style.justifyContent = "flex-start";
     diceDiv.style.paddingLeft = "75px";
 
-    // when the roll button is clicked, generate random numbers between 1 and 6 for each of the die
-    diceOneValue = Math.floor(Math.random() * 6) + 1;
-    diceTwoValue = Math.floor(Math.random() * 6) + 1;
+    //console.log(`current total cells shaded: ${totalCellsShaded}`);
 
-    // set the src attribute of each dice image depending on the randomly generated number
-    let diceOneSrc = `img/dice${diceOneValue}.png`;
-    diceOne.setAttribute('src', diceOneSrc);
-    let diceTwoSrc = `img/dice${diceTwoValue}.png`;
-    diceTwo.setAttribute('src', diceTwoSrc);
+    if(newCellsShaded === undefined || newCellsShaded === true || skippedTurn === true) {
+        // generate random numbers between 1 and 6 for each of the die
+        diceOneValue = Math.floor(Math.random() * 6) + 1;
+        diceTwoValue = Math.floor(Math.random() * 6) + 1;
 
-    // hide the placeholders when the die are rolled
-    placeholders.forEach(placeholder => placeholder.style.display = "none");
+        // set the src attribute of each dice image depending on the randomly generated number
+        let diceOneSrc = `img/dice${diceOneValue}.png`;
+        diceOne.setAttribute('src', diceOneSrc);
+        let diceTwoSrc = `img/dice${diceTwoValue}.png`;
+        diceTwo.setAttribute('src', diceTwoSrc);
 
-    // adds the shade event listener only to cells that haven't been shaded and submitted in previous turns
-    cells.forEach((cell) => {
-        if(!cell.classList.contains("submitted") && !cell.dataset.listenerAdded) {
-            cell.addEventListener("click", shade);
-            cell.dataset.listenerAdded = true;
-        }
-    });
+        // hide the placeholders when the die are rolled
+        placeholders.forEach(placeholder => placeholder.style.display = "none");
+
+        // adds the shade event listener only to cells that haven't been shaded and submitted in previous turns
+        cells.forEach((cell) => {
+            if(!cell.classList.contains("submitted") && !cell.dataset.listenerAdded) {
+                cell.addEventListener("click", shade);
+                cell.dataset.listenerAdded = true;
+            }
+        });
+
+        newCellsShaded = false;
+        skippedTurn = false;
+    } else {
+        // open a modal telling the user to shade cells on the grid or skip this turn
+        console.log("Shade a new array on the grid or skip this turn");
+        // if they choose to skip the turn, increment the skip variable and let them roll the dice again (let skippedTurn = true)
+        skipMessage.classList.remove("hidden");
+    }
+    
 }
+
+function skipTurn(){
+    skips++;
+    skippedTurn = true;
+    skipMessage.classList.add("hidden");
+    console.log(skips);
+}
+
 
 submitButton.addEventListener("click", handleSubmitButtonClick);
 
@@ -165,13 +191,21 @@ function handleSubmitButtonClick() {
         })
         clickedCells = [];
         checkIfAllShaded();
+        newCellsShaded = true;
+        skippedTurn = false;
+        skips = 0;
     }
 }
 
-closeButton.addEventListener("click", function () {
-    noMatchMessage.classList.add("hidden"); 
+closeButtons.forEach((closeButton) => {
+    closeButton.addEventListener("click", () => {
+        if(!noMatchMessage.classList.contains("hidden")){
+            noMatchMessage.classList.add("hidden");
+        } else if(!skipMessage.classList.contains("hidden")){
+            skipMessage.classList.add("hidden");
+        }
+    });
 });
-
 
 //timer
 var timer = 60;
