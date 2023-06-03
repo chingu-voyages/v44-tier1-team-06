@@ -104,16 +104,20 @@ const checkIfAllShaded = () => {
         totalWins++;
         updatedFullGridPoints();
         updateTotalWinPoints();
-        newGame.classList.remove("hidden");
-        messageDiv.classList.remove("hidden");
+        //newGame.classList.remove("hidden");
+        hideButtons();
         winLoseMessage.innerText = "🎉 You win! 🥳";
-        clearButton.classList.add("hidden");
-        submitButton.classList.add("hidden");
-        diceRoller.classList.add("hidden");
-        diceOne.classList.add("hidden");
-        diceTwo.classList.add("hidden");
-        timerDiv.style.display = "none";
     }
+}
+
+function hideButtons(){
+    messageDiv.classList.remove("hidden");
+    clearButton.classList.add("hidden");
+    submitButton.classList.add("hidden");
+    diceRoller.classList.add("hidden");
+    diceOne.classList.add("hidden");
+    diceTwo.classList.add("hidden");
+    timerDiv.style.display = "none";
 }
 
 
@@ -128,16 +132,24 @@ function clearGrid() {
 const newGamebutton = document.querySelector(".button-new");  
 newGamebutton.addEventListener("click", function () {
     console.log('yes')
-// reset the timer:
-resetTimer();
-//clear the leaderboard:
- totalWins = 0;
- totalLoses = 0;
- timerPoints = 0;
- forfietPoints = 0;
- fullGridPoints = 0; 
-//clear the grid:
-clearGrid()
+    // reset the timer:
+    resetTimer();
+    //clear the leaderboard:
+    totalWins = 0;
+    totalLoses = 0;
+    timerPoints = 0;
+    forfietPoints = 0;
+    fullGridPoints = 0; 
+    //clear the grid:
+    clearGrid()
+    // show buttons
+    messageDiv.classList.add("hidden");
+    clearButton.classList.remove("hidden");
+    submitButton.classList.remove("hidden");
+    diceRoller.classList.remove("hidden");
+    diceOne.classList.remove("hidden");
+    diceTwo.classList.remove("hidden");
+    timerDiv.style.display = "unset";
 }); 
 
 
@@ -186,11 +198,18 @@ function handleRollButtonClick() {
     
 }
 
+// called when the user clicks the "skip this turn" button in the modal
 function skipTurn(){
     skips++;
     skippedTurn = true;
     skipMessage.classList.add("hidden");
     console.log(skips);
+    if(skips === 2) {
+        forfietPoints++;
+        totalLoses++;
+        hideButtons();
+        winLoseMessage.innerText = "😿 You lose 💔";
+    }
 }
 
 
