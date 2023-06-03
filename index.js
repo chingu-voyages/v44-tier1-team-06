@@ -116,6 +116,31 @@ const checkIfAllShaded = () => {
     }
 }
 
+
+// CLEAR GRID FUNCTION
+function clearGrid() {
+    cells.forEach((cell) => {
+        cell.classList.remove("shaded");
+    });
+}
+
+// NEW GAME BUTTON
+const newGamebutton = document.querySelector(".button-new");  
+newGamebutton.addEventListener("click", function () {
+    console.log('yes')
+// reset the timer:
+resetTimer();
+//clear the leaderboard:
+ totalWins = 0;
+ totalLoses = 0;
+ timerPoints = 0;
+ forfietPoints = 0;
+ fullGridPoints = 0; 
+//clear the grid:
+clearGrid()
+}); 
+
+
 // DICE ROLLER
 diceRoller.addEventListener("click", handleRollButtonClick);
 let diceOneValue;
@@ -230,11 +255,13 @@ function resetTimer() {
 
 // variables to store the points
 
+
 let fullGridPoints = 0;
 let forfietPoints = 0;
 let timerPoints = 0;
 let totalLoses = 0;
 let totalWins = 0;
+
 
 
 // updating points section
