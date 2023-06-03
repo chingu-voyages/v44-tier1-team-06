@@ -16,6 +16,11 @@ body {
 .left-panel {
   margin: 50px;
 }
+
+.left-panel {
+  text-align: center;
+}
+
 h1 {
   color: #46f3f6;
   font-size: 48px;
@@ -47,9 +52,16 @@ h1 {
   display: flex;
   min-width: 100%;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   margin: 10px;
+  padding-left: 36px;
 }
+.die {
+  color: white;
+  font-size: 50px;
+  padding: 5px;
+}
+
 .dice-one,
 .dice-two {
   padding: 5px;
@@ -59,6 +71,7 @@ h1 {
 .clear-submit-buttons-container {
   display: flex;
   margin: 10px 0 5px 0;
+  /* align-self: flex-start; */
 }
 
 button,
@@ -99,7 +112,7 @@ button,
   font-size: 2.5em;
   padding: 10px;
   text-align: center;
-  margin: 0 auto 0 130px;
+  /* margin: 0 auto 0 130px; */
 }
 .left-panel {
   display: flex;
@@ -151,6 +164,26 @@ button,
 
 .shaded {
   background-color: aquamarine;
+}
+
+.no-match {
+  position: absolute;
+  z-index: 10;
+  top: 50%;
+  left: 30%;
+  width: 33%;
+  text-align: center;
+  padding: 30px;
+  background-color: rgba(251, 178, 68, 0.9);
+  border-radius: 10px;
+}
+
+.fa-xmark {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 20px;
+  cursor: pointer;
 }
 
 footer {

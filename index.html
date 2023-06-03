@@ -24,7 +24,11 @@
                 <div class="buttons-container">
                     <button type="button" class="button-new">new game!</button>
                     <div class="roll-button-dice-container">
-                        <button type="button" class="button-roll" onclick="resetTimer()">roll</button>                        
+                        <button type="button" class="button-roll" onclick="resetTimer()">roll</button>
+                        <!-- PLACEHOLDER DICE EXAMPLES -->
+                        <i class="fa-solid fa-dice-one die placeholder"></i>
+                        <i class="fa-solid fa-dice-three die placeholder"></i>
+                        
                         <!-- DYNAMICALLY GENERATED DIE -->
                         <div class="dice-area">
                             <img class="dice-one" />
@@ -43,36 +47,37 @@
             <div class="right-panel">
                 <div class="leaderboard">
                     <div class="tally-win-lose">
-                        <i class="fa-solid fa-trophy big-icon"></i>
-                        <i class="fa-solid fa-heart-crack big-icon"></i>
-                        <p class="totalPointsTracker"></p>
+                        <i class="fa-solid fa-trophy big-icon totalWinsTracker"></i>
+                        <i class="fa-solid fa-heart-crack big-icon totalLosesTracker"></i>
                     </div>
                     <div class="tally-by-scenario">
                         <div class="time-scenario">
-                            <i class="fa-solid fa-hourglass-end small-icon"></i>
+                            <i class="fa-solid fa-hourglass-end small-icon timerTracker"></i>
                             <!-- Depending on how we go about it, here could go the display of games lost because the rounds ended -->
-                            <p></p>
                         </div>
                         <div class="full-grid-scenario">
-                            <i class="fa-solid fa-square small-icon"></i>
+                            <i class="fa-solid fa-square small-icon fullGridPointsTracker"></i>
                             <!-- Depending on how we go about it, here could go the display of games won because the player filled the entire grid -->
-                            <p class="winPointsTracker"></p>
                         </div>
                         <div class="forfeit-scenario">
-                            <i class="fa-solid fa-font-awesome small-icon"></i>
+                            <i class="fa-solid fa-font-awesome small-icon forfeitPointsTracker"></i>
                             <!-- Depending on how we go about it, here could go the display of games lost because of forfeiting -->
-                            <p class="losePointsTracker"></p>
                         </div>
                     </div>
                 </div>
 
                 <!-- GRID -->
-            <div class="grid">
+            <div class="grid" id="grid-container">
                 <div class="container"></div>
             </div>
             </div>
 
             
+        </div>
+
+        <div class="no-match hidden">
+            <h2>The number of squares you shaded does not match the product of the dice. Try again!</h2>
+            <i class="fa-solid fa-xmark" style="color: #050505;" id="close-button"></i>
         </div>
     </div>
     <footer>

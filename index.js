@@ -111,21 +111,27 @@ const checkIfAllShaded = () => {
     }
 }
 
+// CLEAR GRID FUNCTION
+function clearGrid() {
+    cells.forEach((cell) => {
+        cell.classList.remove("shaded");
+    });
+}
+
 // NEW GAME BUTTON
 const newGamebutton = document.querySelector(".button-new");  
 newGamebutton.addEventListener("click", function () {
+    console.log('yes')
 // reset the timer:
 resetTimer();
 //clear the leaderboard:
  totalWins = 0;
  totalLoses = 0;
- losesTimer = 0;
- losesForfeit = 0;
- winsFullGrid = 0;
- displayScore();   
+ timerPoints = 0;
+ forfietPoints = 0;
+ fullGridPoints = 0; 
 //clear the grid:
-    clickedCells.forEach((cell) => {cell.classList.toggle("shaded");});
-    clickedCells = [];
+clearGrid()
 }); 
 
 // DICE ROLLER
@@ -213,11 +219,11 @@ function resetTimer() {
 
 // variables to store the points
 
-let fullGridPoints = 0;
-let forfietPoints = 0;
-let timerPoints = 0;
-let totalLoses = 0;
-let totalWins = 0;
+let fullGridPoints = 1;
+let forfietPoints = 2;
+let timerPoints = 3;
+let totalLoses = 4;
+let totalWins = 5;
 
 
 // updating points section
