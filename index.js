@@ -1,3 +1,4 @@
+// GRID CONTAINER
 const container = document.querySelector(".container");
 
 let boardHeight;
@@ -14,6 +15,10 @@ const diceOne = document.querySelector(".dice-one");
 const diceTwo = document.querySelector(".dice-two");
 const placeholders = document.querySelectorAll(".placeholder");
 const timerDiv = document.querySelector(".timer");
+const diceDiv = document.querySelector(".roll-button-dice-container");
+const noMatchMessage = document.querySelector(".no-match");
+const closeButton = document.getElementById("close-button");
+
 
 function createGrid() {
     // gives us the option to expand the board dimensions in two player mode
@@ -52,14 +57,30 @@ let clickedCells = [];
 // shade cells on the grid
 function shade(event) {
     let targetCell = event.target;
-    targetCell.classList.toggle("shaded");
-    clickedCells.push(targetCell);
+
+    if(targetCell.classList.contains("submitted")) {
+        return; // skip shading/unshading if the cell that's clicked has already been submitted in a previous turn
+    }
+
+    if (targetCell.classList.contains("shaded")) {
+        targetCell.classList.remove("shaded");
+        // check if the cell is already in the clickedCells array
+        const index = clickedCells.indexOf(targetCell);
+        if (index > -1) {
+            // if it is, remove it from the array
+            clickedCells.splice(index, 1);
+        }
+    } else {
+        // if it's not in the array, add it to the clickedCells arry and shade the cell
+        targetCell.classList.add("shaded");
+        clickedCells.push(targetCell);
+    }
 }
 
 // use the clear button to unshade the cells that were just clicked (but not submitted) so the user can try a different combo of cells
 clearButton.addEventListener("click", () => {
     clickedCells.forEach((cell) => {
-        cell.classList.toggle("shaded");
+        cell.classList.remove("shaded");
     });
     clickedCells = [];
 });
@@ -74,14 +95,18 @@ const checkIfAllShaded = () => {
     const allShaded = cellsArray.every((cell) => cell.classList.contains("shaded"));
     if(allShaded) {
         console.log("you win!")
+        fullGridPoints++;
+        totalWins++;
+        updatedFullGridPoints();
+        updateTotalWinPoints();
         newGame.classList.remove("hidden");
         messageDiv.classList.remove("hidden");
         winLoseMessage.innerText = "🎉 You win! 🥳";
-        clearButton.style.display = "none";
-        submitButton.style.display = "none";
-        diceRoller.style.display = "none";
-        diceOne.style.display = "none";
-        diceTwo.style.display = "none";
+        clearButton.classList.add("hidden");
+        submitButton.classList.add("hidden");
+        diceRoller.classList.add("hidden");
+        diceOne.classList.add("hidden");
+        diceTwo.classList.add("hidden");
         timerDiv.style.display = "none";
     }
 }
@@ -103,44 +128,67 @@ resetTimer();
     clickedCells = [];
 }); 
 
-
-
-
 // DICE ROLLER
 diceRoller.addEventListener("click", handleRollButtonClick);
+let diceOneValue;
+let diceTwoValue;
 
 function handleRollButtonClick() {
+    // adjust CSS
+    diceDiv.style.justifyContent = "flex-start";
+    diceDiv.style.paddingLeft = "75px";
+
     // when the roll button is clicked, generate random numbers between 1 and 6 for each of the die
-    let diceOneValue = Math.floor(Math.random() * 6) + 1;
-    let diceTwoValue = Math.floor(Math.random() * 6) + 1;
+    diceOneValue = Math.floor(Math.random() * 6) + 1;
+    diceTwoValue = Math.floor(Math.random() * 6) + 1;
 
     // set the src attribute of each dice image depending on the randomly generated number
     let diceOneSrc = `img/dice${diceOneValue}.png`;
     diceOne.setAttribute('src', diceOneSrc);
-
     let diceTwoSrc = `img/dice${diceTwoValue}.png`;
     diceTwo.setAttribute('src', diceTwoSrc);
 
     // hide the placeholders when the die are rolled
     placeholders.forEach(placeholder => placeholder.style.display = "none");
 
-    // only AFTER the roll button is clicked, shade a cell when clicked and push that cell to the clickedCells array
+    // adds the shade event listener only to cells that haven't been shaded and submitted in previous turns
     cells.forEach((cell) => {
-        cell.addEventListener("click", shade);
-    });
-
-    // submit button is only clickable AFTER the die are rolled
-    // remove the click event listener from every cell in the clickedCells array after the submit button is clicked
-    submitButton.addEventListener("click", function () { 
-        clickedCells.forEach((clickedCell) =>
-            clickedCell.removeEventListener("click", shade)
-        );
-        // empty out the array so the submitted cells don't get cleared if the clear button is clicked
-        clickedCells = [];
-        checkIfAllShaded();
-        count = 0;
+        if(!cell.classList.contains("submitted") && !cell.dataset.listenerAdded) {
+            cell.addEventListener("click", shade);
+            cell.dataset.listenerAdded = true;
+        }
     });
 }
+
+submitButton.addEventListener("click", handleSubmitButtonClick);
+
+function handleSubmitButtonClick() {
+    console.log("submission:");
+    const product = diceOneValue * diceTwoValue;
+    const clickedCellsCurrentTurn = [...clickedCells];
+
+    console.log(`product: ${product}`)
+    console.log(`length of clickedCells array: ${clickedCells.length}`);
+    console.log(`length of clickedCellsCurrentTurn array: ${clickedCellsCurrentTurn.length}`);
+
+    if (product !== clickedCellsCurrentTurn.length) {
+        console.log("doesn't match");
+        noMatchMessage.classList.remove("hidden");
+    } else {
+        console.log("match");
+        clickedCells.forEach((cell) => {
+            cell.classList.add("submitted");
+            cell.removeEventListener("click", shade);
+        })
+        clickedCells = [];
+        checkIfAllShaded();
+    }
+}
+
+closeButton.addEventListener("click", function () {
+    noMatchMessage.classList.add("hidden"); 
+});
+
 
 //timer
 var timer = 60;
@@ -148,6 +196,13 @@ var interval = setInterval(function() {
     timer--;
     $('.timer').text(timer);
     if (timer === 0) clearInterval(interval);
+    if (timer === 0) {
+        timerPoints++;
+        totalLoses++;
+        updateTimerPoints();
+        updateTotalLosePoints();
+        clearInterval(interval)
+    }
 }, 1000);
 
 function resetTimer() {
@@ -156,58 +211,82 @@ function resetTimer() {
 
 // Leaderboard Section
 
-// lose condition of forfeiting two consecutive turns
-let forfeitTurnPoints = 0;
-let count = 0; 
-diceRoller.addEventListener("click", function () {
-    // const count = 0; this should have been a global function so outside of the event lister.
-    count++;
-    if (count === 2) {
-        console.log("You lose!") 
-        forfeitTurnPoints++;
-    } 
-});
+// variables to store the points
 
-// win condition of the whole grid being shaded.  Carol is working on this one I think?
-let fullGridPoints = 0; // This is just a placeholder for working on the icons and the point trackers.
+let fullGridPoints = 0;
+let forfietPoints = 0;
+let timerPoints = 0;
+let totalLoses = 0;
+let totalWins = 0;
+
+
+// updating points section
+
+// Function to update fullGrid points
+const updatedFullGridPoints = () => {
+    document.getElementById("fullGridPointsTracker").innerText = fullGridPoints; 
+};
+
+// Function to update forfiet points
+const updateforfietPoints = () => {
+    document.getElementById("forfeitPointsTracker").innerText = forfietPoints; 
+};
+
+// function to update timer points
+const updateTimerPoints = () => {
+    document.getElementById("timerTracker").innerText = timerPoints;
+}
+
+// function to update total win points
+const updateTotalWinPoints = () => {
+    document.getElementById("totalWinsTracker").innerText = totalWins; 
+};
+
+// function to update total lose points
+const updateTotalLosePoints = () => {
+    document.getElementById("totalLosesTracker").innerText = totalLoses 
+};
 
 
 //  Icon section to see number of points when hovering over icon
 
-const forfeitIcon = document.getElementById("fa-solid fa-font-awesome small-icon");  // Ask if this is the right icon to use.
-
-forfeitIcon.addEventListener("mousemover", function () {
-    forfeitIcon.innerHTML = forfeitTurnLosses.length;
-}); 
-
-const fullGridIcon = document.getElementById("fa-solid fa-square small-icon");
-
-fullGridIcon.addEventListener("mouseover", function () {
-    fullGridIcon.innerHTML = filledGridWin.length
+const forfeitIcon = document.querySelector(".fa-font-awesome");
+forfeitIcon.addEventListener("mouseover", () => {
+    forfeitIcon.innerHTML = `<p class="forfeit-score">${forfietPoints}</p>`;
+    //  forfeitIcon.innerText = forfietPoints;
+});
+forfeitIcon.addEventListener("mouseout", () => {
+    forfeitIcon.innerHTML = ""; // Reset icon text when mouse is removed
 });
 
-const totalIcon = document.getElementById("");
+const fullGridIcon = document.querySelector(".fa-square");
+fullGridIcon.addEventListener("mouseover", () => {
+    fullGridIcon.innerHTML = `<p class="forfeit-score">${fullGridPoints}</p>`;
+});
+fullGridIcon.addEventListener("mouseout", () => {
+    fullGridIcon.innerHTML = ""; // Reset icon text when mouse is removed
+});
 
-totalIcon.addEventListener("mouseover", function () {
-    totalIcon.innerHTML // Ask about this one.  I might have to add an array like the other point trackers.
-})
+const timerIcon = document.querySelector(".fa-hourglass-end");
+timerIcon.addEventListener("mouseover", () => {
+  timerIcon.innerHTML = `<p class="forfeit-score">${timerPoints}</p>`;
+});
+timerIcon.addEventListener("mouseout", () => {
+  timerIcon.innerHTML = "";
+});
 
+const totalWinIcon = document.querySelector(".fa-trophy");
+totalWinIcon.addEventListener("mouseover", () => {
+  totalWinIcon.innerHTML = `<p class="forfeit-score">${totalWins}</p>`;
+});
+totalWinIcon.addEventListener("mouseout", () => {
+  totalWinIcon.innerHTML = "";
+});
 
-// Point tracking section
-
-const lossPointsTotal = function () {
-    const losePointsTracker = document.getElementById("losePointsTracker");
-    losePointsTracker.innerHTML = forfeitTurnPoints.length;
-}
-
-const winPointsTotal = function () {
-    const winPointsTracker = document.getElementById("winPointsTracker");
-    winPointsTracker.innerHTML = fullGridPoints.length;
-}
-
-const totalPoints = function () {
-    const totalPointsTracker = document.getElementById("totalPointsTracker")
-    totalPointsTracker.innerHTML = forfeitTurnPoints.length + fullGridPoints.length; // Not sure if this is correct.  Will have to ask.
-
-};
-
+const totalLoseIcon = document.querySelector(".fa-heart-crack");
+totalLoseIcon.addEventListener("mouseover", () => {
+    totalLoseIcon.innerHTML = `<p class="forfeit-score">${totalLoses}</p>`;
+  });
+  totalLoseIcon.addEventListener("mouseout", () => {
+    totalLoseIcon.innerHTML = "";
+  });
