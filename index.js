@@ -80,7 +80,7 @@ clearButton.addEventListener("click", () => {
     clickedCells = [];
 });
 
-// CLEAR GRID FUNCTION
+// -------- CLEAR GRID FUNCTION -------- //
 function clearGrid() {
     cells.forEach((cell) => {
         cell.classList.remove("shaded");
@@ -189,13 +189,15 @@ closeButton.addEventListener("click", function () {
 });
 
 
-//timer
+// -------- TIMER AND ALL ITS RELATED FUNCTIONS  -------- //
 var timer = 60;
 var interval = setInterval(function() {
     timer--;
     $('.timer').text(timer);
     if (timer === 0) {
+        // display function to add point to hourglass icon
         displayScore(losesTimer++)
+        // display function to add point to total loses
         displayScore(totalLoses++)
         clearInterval(interval);
     }
@@ -204,10 +206,6 @@ var interval = setInterval(function() {
 function resetTimer() {
     timer=61;
 };
-// function timesUp() {
-    
-// }
-// timesUp();
 
 // Leaderboard Section
 
@@ -269,6 +267,8 @@ const totalPoints = function () {
 
 };
 */
+
+
 // -------- LEADERBOARD -------- //
 // fetching icons
 const totalWinsIcon = document.getElementById("totalWinsIcon")
@@ -277,14 +277,14 @@ const losesTimerIcon = document.getElementById("losesTimerIcon")
 const losesForfeitIcon = document.getElementById("losesForfeitIcon")
 const winsFullGridIcon = document.getElementById("winsFullGridIcon")
 
-// declaring initial values for all points
+// declaring initial values for all points for testing purposes
 let totalWins = 1;
 let totalLoses = 2;
 let losesTimer = 3;
 let losesForfeit = 5;
 let winsFullGrid = 4;
-// display functions
 
+// display function for all icons
 function displayScore() {
     totalWinsIcon.innerText = totalWins;
     totalLosesIcon.innerText = totalLoses;
