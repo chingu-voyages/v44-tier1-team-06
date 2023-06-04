@@ -233,6 +233,7 @@ const updateTotalLosePoints = () => {
 
 //  Icon section to see number of points when hovering over icon
 
+
 const forfeitIcon = document.querySelector(".fa-font-awesome");
 forfeitIcon.addEventListener("mouseover", () => {
     forfeitIcon.innerHTML = `<p class="forfeit-score">${forfietPoints}</p>`;
@@ -250,13 +251,16 @@ fullGridIcon.addEventListener("mouseout", () => {
     fullGridIcon.innerHTML = ""; // Reset icon text when mouse is removed
 });
 
+/*
 const timerIcon = document.querySelector(".fa-hourglass-end");
 timerIcon.addEventListener("mouseover", () => {
-  timerIcon.innerHTML = `<p class="forfeit-score">${timerPoints}</p>`;
+  // timerIcon.innerHTML = `<p class="forfeit-score">${timerPoints}</p>`;
+  timerIcon.innerText = timerPoints;
 });
 timerIcon.addEventListener("mouseout", () => {
   timerIcon.innerHTML = "";
 });
+*/
 
 const totalWinIcon = document.querySelector(".fa-trophy");
 totalWinIcon.addEventListener("mouseover", () => {
