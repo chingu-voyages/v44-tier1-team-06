@@ -166,7 +166,7 @@ button,
   background-color: aquamarine;
 }
 
-.no-match {
+.modal {
   position: absolute;
   z-index: 10;
   top: 50%;
@@ -177,6 +177,18 @@ button,
   background-color: rgba(251, 178, 68, 0.9);
   border-radius: 10px;
 }
+
+/* .no-match {
+  position: absolute;
+  z-index: 10;
+  top: 50%;
+  left: 30%;
+  width: 33%;
+  text-align: center;
+  padding: 30px;
+  background-color: rgba(251, 178, 68, 0.9);
+  border-radius: 10px;
+} */
 
 .fa-xmark {
   position: absolute;
@@ -186,7 +198,7 @@ button,
   cursor: pointer;
 }
 
-.skip-message {
+/* .skip-message {
   position: absolute;
   z-index: 10;
   top: 50%;
@@ -196,7 +208,7 @@ button,
   padding: 30px;
   background-color: rgba(251, 178, 68, 0.9);
   border-radius: 10px;
-}
+} */
 
 span {
   display: block;
