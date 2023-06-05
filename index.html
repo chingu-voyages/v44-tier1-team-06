@@ -75,15 +75,21 @@
             
         </div>
 
-        <div class="no-match hidden">
+        <div class="no-match hidden modal">
             <h2>The number of squares you shaded does not match the product of the dice. Try again!</h2>
             <i class="fa-solid fa-xmark close-button" style="color: #050505;"></i>
         </div>
 
-        <div class="skip-message hidden">
+        <div class="skip-message hidden modal">
             <h2>Shade a new array on the grid</h2>
             <span>OR</span>
             <button class="skip-button" onclick="skipTurn()">skip this turn</button>
+            <i class="fa-solid fa-xmark close-button" style="color: #050505;"></i>
+        </div>
+
+        <div class="game-in-progress hidden modal">
+            <h2>Starting a new game will abandon the current game.</h2>
+            <button class="ok-button">ok</button>
             <i class="fa-solid fa-xmark close-button" style="color: #050505;"></i>
         </div>
     </div>
