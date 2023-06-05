@@ -313,6 +313,7 @@ const updateTotalLosePoints = () => {
 
 //  Icon section to see number of points when hovering over icon
 
+/* 
 const forfeitIcon = document.querySelector(".fa-font-awesome");
 forfeitIcon.addEventListener("mouseover", () => {
     forfeitIcon.innerHTML = `<p class="forfeit-score">${forfietPoints}</p>`;
@@ -353,3 +354,4 @@ totalLoseIcon.addEventListener("mouseover", () => {
   totalLoseIcon.addEventListener("mouseout", () => {
     totalLoseIcon.innerHTML = "";
   });
+  */
