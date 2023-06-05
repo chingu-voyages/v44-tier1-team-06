@@ -207,6 +207,8 @@ function skipTurn(){
     if(skips === 2) {
         forfietPoints++;
         totalLoses++;
+        updateforfietPoints();
+        updateTotalLosePoints();
         hideButtons();
         winLoseMessage.innerText = "😿 You lose 💔";
     }
@@ -288,7 +290,7 @@ let totalWins = 0;
 
 
 
-// updating points section
+// updating points section of leaderboard
 
 // Function to update fullGrid points
 const updatedFullGridPoints = () => {
@@ -316,7 +318,7 @@ const updateTotalLosePoints = () => {
 };
 
 
-//  Icon section to see number of points when hovering over icon
+/*  Icon section to see number of points when hovering over icon
 
 const forfeitIcon = document.querySelector(".fa-font-awesome");
 forfeitIcon.addEventListener("mouseover", () => {
@@ -358,3 +360,4 @@ totalLoseIcon.addEventListener("mouseover", () => {
   totalLoseIcon.addEventListener("mouseout", () => {
     totalLoseIcon.innerHTML = "";
   });
+  */
