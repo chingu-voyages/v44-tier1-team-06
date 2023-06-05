@@ -17,12 +17,8 @@ const placeholders = document.querySelectorAll(".placeholder");
 const timerDiv = document.querySelector(".timer");
 const diceDiv = document.querySelector(".roll-button-dice-container");
 const noMatchMessage = document.querySelector(".no-match");
-const closeButtons = document.querySelectorAll(".close-button");
-const gridContainer = document.getElementById("grid-container");
-let newCellsShaded;
-let skips = 0;
-let skippedTurn;
-const skipMessage = document.querySelector(".skip-message");
+const closeButton = document.getElementById("close-button");
+
 
 function createGrid() {
     // gives us the option to expand the board dimensions in two player mode
@@ -78,7 +74,6 @@ function shade(event) {
         // if it's not in the array, add it to the clickedCells arry and shade the cell
         targetCell.classList.add("shaded");
         clickedCells.push(targetCell);
-        //cellsShaded = gridContainer.getElementsByClassName("shaded");
     }
 }
 
@@ -104,22 +99,17 @@ const checkIfAllShaded = () => {
         totalWins++;
         updatedFullGridPoints();
         updateTotalWinPoints();
-        //newGame.classList.remove("hidden");
-        hideButtons();
+        newGame.classList.remove("hidden");
+        messageDiv.classList.remove("hidden");
         winLoseMessage.innerText = "🎉 You win! 🥳";
+        clearButton.classList.add("hidden");
+        submitButton.classList.add("hidden");
+        diceRoller.classList.add("hidden");
+        diceOne.classList.add("hidden");
+        diceTwo.classList.add("hidden");
+        timerDiv.style.display = "none";
     }
 }
-
-function hideButtons(){
-    messageDiv.classList.remove("hidden");
-    clearButton.classList.add("hidden");
-    submitButton.classList.add("hidden");
-    diceRoller.classList.add("hidden");
-    diceOne.classList.add("hidden");
-    diceTwo.classList.add("hidden");
-    timerDiv.style.display = "none";
-}
-
 
 // CLEAR GRID FUNCTION
 function clearGrid() {
@@ -132,26 +122,17 @@ function clearGrid() {
 const newGamebutton = document.querySelector(".button-new");  
 newGamebutton.addEventListener("click", function () {
     console.log('yes')
-    // reset the timer:
-    resetTimer();
-    //clear the leaderboard:
-    totalWins = 0;
-    totalLoses = 0;
-    timerPoints = 0;
-    forfietPoints = 0;
-    fullGridPoints = 0; 
-    //clear the grid:
-    clearGrid()
-    // show buttons
-    messageDiv.classList.add("hidden");
-    clearButton.classList.remove("hidden");
-    submitButton.classList.remove("hidden");
-    diceRoller.classList.remove("hidden");
-    diceOne.classList.remove("hidden");
-    diceTwo.classList.remove("hidden");
-    timerDiv.style.display = "unset";
+// reset the timer:
+resetTimer();
+//clear the leaderboard:
+ totalWins = 0;
+ totalLoses = 0;
+ timerPoints = 0;
+ forfietPoints = 0;
+ fullGridPoints = 0; 
+//clear the grid:
+clearGrid()
 }); 
-
 
 // DICE ROLLER
 diceRoller.addEventListener("click", handleRollButtonClick);
@@ -163,55 +144,27 @@ function handleRollButtonClick() {
     diceDiv.style.justifyContent = "flex-start";
     diceDiv.style.paddingLeft = "75px";
 
-    //console.log(`current total cells shaded: ${totalCellsShaded}`);
+    // when the roll button is clicked, generate random numbers between 1 and 6 for each of the die
+    diceOneValue = Math.floor(Math.random() * 6) + 1;
+    diceTwoValue = Math.floor(Math.random() * 6) + 1;
 
-    if(newCellsShaded === undefined || newCellsShaded === true || skippedTurn === true) {
-        // generate random numbers between 1 and 6 for each of the die
-        diceOneValue = Math.floor(Math.random() * 6) + 1;
-        diceTwoValue = Math.floor(Math.random() * 6) + 1;
+    // set the src attribute of each dice image depending on the randomly generated number
+    let diceOneSrc = `img/dice${diceOneValue}.png`;
+    diceOne.setAttribute('src', diceOneSrc);
+    let diceTwoSrc = `img/dice${diceTwoValue}.png`;
+    diceTwo.setAttribute('src', diceTwoSrc);
 
-        // set the src attribute of each dice image depending on the randomly generated number
-        let diceOneSrc = `img/dice${diceOneValue}.png`;
-        diceOne.setAttribute('src', diceOneSrc);
-        let diceTwoSrc = `img/dice${diceTwoValue}.png`;
-        diceTwo.setAttribute('src', diceTwoSrc);
+    // hide the placeholders when the die are rolled
+    placeholders.forEach(placeholder => placeholder.style.display = "none");
 
-        // hide the placeholders when the die are rolled
-        placeholders.forEach(placeholder => placeholder.style.display = "none");
-
-        // adds the shade event listener only to cells that haven't been shaded and submitted in previous turns
-        cells.forEach((cell) => {
-            if(!cell.classList.contains("submitted") && !cell.dataset.listenerAdded) {
-                cell.addEventListener("click", shade);
-                cell.dataset.listenerAdded = true;
-            }
-        });
-
-        newCellsShaded = false;
-        skippedTurn = false;
-    } else {
-        // open a modal telling the user to shade cells on the grid or skip this turn
-        console.log("Shade a new array on the grid or skip this turn");
-        // if they choose to skip the turn, increment the skip variable and let them roll the dice again (let skippedTurn = true)
-        skipMessage.classList.remove("hidden");
-    }
-    
+    // adds the shade event listener only to cells that haven't been shaded and submitted in previous turns
+    cells.forEach((cell) => {
+        if(!cell.classList.contains("submitted") && !cell.dataset.listenerAdded) {
+            cell.addEventListener("click", shade);
+            cell.dataset.listenerAdded = true;
+        }
+    });
 }
-
-// called when the user clicks the "skip this turn" button in the modal
-function skipTurn(){
-    skips++;
-    skippedTurn = true;
-    skipMessage.classList.add("hidden");
-    console.log(skips);
-    if(skips === 2) {
-        forfietPoints++;
-        totalLoses++;
-        hideButtons();
-        winLoseMessage.innerText = "😿 You lose 💔";
-    }
-}
-
 
 submitButton.addEventListener("click", handleSubmitButtonClick);
 
@@ -235,21 +188,13 @@ function handleSubmitButtonClick() {
         })
         clickedCells = [];
         checkIfAllShaded();
-        newCellsShaded = true;
-        skippedTurn = false;
-        skips = 0;
     }
 }
 
-closeButtons.forEach((closeButton) => {
-    closeButton.addEventListener("click", () => {
-        if(!noMatchMessage.classList.contains("hidden")){
-            noMatchMessage.classList.add("hidden");
-        } else if(!skipMessage.classList.contains("hidden")){
-            skipMessage.classList.add("hidden");
-        }
-    });
+closeButton.addEventListener("click", function () {
+    noMatchMessage.classList.add("hidden"); 
 });
+
 
 //timer
 var timer = 60;
@@ -274,13 +219,11 @@ function resetTimer() {
 
 // variables to store the points
 
-
 let fullGridPoints = 0;
 let forfietPoints = 0;
 let timerPoints = 0;
 let totalLoses = 0;
 let totalWins = 0;
-
 
 
 // updating points section
