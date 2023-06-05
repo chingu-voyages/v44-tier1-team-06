@@ -290,7 +290,7 @@ let totalWins = 0;
 
 
 
-// updating points section
+// updating points section of leaderboard
 
 // Function to update fullGrid points
 const updatedFullGridPoints = () => {
