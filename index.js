@@ -268,6 +268,7 @@ var interval = setInterval(function() {
         clearInterval(interval);
        
     }
+    placeholders.forEach(placeholder => placeholder.style.display = "block");
 }, 1000);
 
 function resetTimer() {
