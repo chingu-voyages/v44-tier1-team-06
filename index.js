@@ -23,6 +23,10 @@ let newCellsShaded;
 let skips = 0;
 let skippedTurn;
 const skipMessage = document.querySelector(".skip-message");
+let cellsSubmitted;
+let submittedArr; 
+const gameInProgressAlert = document.querySelector(".game-in-progress");
+const okButton = document.querySelector(".ok-button");
 
 function createGrid() {
     // gives us the option to expand the board dimensions in two player mode
@@ -128,28 +132,44 @@ function clearGrid() {
     });
 }
 
-// NEW GAME BUTTON
-const newGamebutton = document.querySelector(".button-new");  
-newGamebutton.addEventListener("click", function () {
-    console.log('yes')
-    // reset the timer:
-    resetTimer();
-    //clear the leaderboard:
+function clearLeaderboard() {
     totalWins = 0;
     totalLoses = 0;
     timerPoints = 0;
     forfietPoints = 0;
     fullGridPoints = 0; 
-    //clear the grid:
-    clearGrid()
-    // show buttons
-    messageDiv.classList.add("hidden");
-    clearButton.classList.remove("hidden");
-    submitButton.classList.remove("hidden");
-    diceRoller.classList.remove("hidden");
-    diceOne.classList.remove("hidden");
-    diceTwo.classList.remove("hidden");
-    timerDiv.style.display = "unset";
+}
+
+
+
+// NEW GAME BUTTON
+const newGamebutton = document.querySelector(".button-new");  
+newGamebutton.addEventListener("click", function () {
+    if(cellsSubmitted.length > 0 && cellsSubmitted.length < 100) {
+        console.log("Starting a new game will abandon the current game");
+        gameInProgressAlert.classList.remove("hidden");
+    } else {
+        console.log('yes')
+        // reset the timer:
+        resetTimer();
+        //clear the leaderboard:
+        clearLeaderboard();
+        // totalWins = 0;
+        // totalLoses = 0;
+        // timerPoints = 0;
+        // forfietPoints = 0;
+        // fullGridPoints = 0; 
+        //clear the grid:
+        clearGrid()
+        // show buttons
+        messageDiv.classList.add("hidden");
+        clearButton.classList.remove("hidden");
+        submitButton.classList.remove("hidden");
+        diceRoller.classList.remove("hidden");
+        diceOne.classList.remove("hidden");
+        diceTwo.classList.remove("hidden");
+        timerDiv.style.display = "unset";
+    }
 }); 
 
 
@@ -162,8 +182,6 @@ function handleRollButtonClick() {
     // adjust CSS
     diceDiv.style.justifyContent = "flex-start";
     diceDiv.style.paddingLeft = "75px";
-
-    //console.log(`current total cells shaded: ${totalCellsShaded}`);
 
     if(newCellsShaded === undefined || newCellsShaded === true || skippedTurn === true) {
         // generate random numbers between 1 and 6 for each of the die
@@ -181,9 +199,9 @@ function handleRollButtonClick() {
 
         // adds the shade event listener only to cells that haven't been shaded and submitted in previous turns
         cells.forEach((cell) => {
-            if(!cell.classList.contains("submitted") && !cell.dataset.listenerAdded) {
+            if(!cell.classList.contains("submitted")) { //&& !cell.dataset.listenerAdded
                 cell.addEventListener("click", shade);
-                cell.dataset.listenerAdded = true;
+                //cell.dataset.listenerAdded = true;
             }
         });
 
@@ -220,9 +238,9 @@ function handleSubmitButtonClick() {
     const product = diceOneValue * diceTwoValue;
     const clickedCellsCurrentTurn = [...clickedCells];
 
-    console.log(`product: ${product}`)
-    console.log(`length of clickedCells array: ${clickedCells.length}`);
-    console.log(`length of clickedCellsCurrentTurn array: ${clickedCellsCurrentTurn.length}`);
+    // console.log(`product: ${product}`)
+    // console.log(`length of clickedCells array: ${clickedCells.length}`);
+    // console.log(`length of clickedCellsCurrentTurn array: ${clickedCellsCurrentTurn.length}`);
 
     if (product !== clickedCellsCurrentTurn.length) {
         console.log("doesn't match");
@@ -238,8 +256,26 @@ function handleSubmitButtonClick() {
         newCellsShaded = true;
         skippedTurn = false;
         skips = 0;
+        cellsSubmitted = container.getElementsByClassName("submitted");
+        submittedArr = Array.from(cellsSubmitted);
+        console.log(cellsSubmitted);
+        console.log(submittedArr);
     }
 }
+
+okButton.addEventListener("click", () => {
+    console.log(submittedArr);
+    clearGrid();
+    resetTimer();
+    clearLeaderboard();
+    submittedArr.forEach((cell) => {
+        cell.classList.remove("submitted");
+        //cell.dataset.listenerAdded = false;
+    });
+    console.log(submittedArr);
+    skippedTurn = true;
+    gameInProgressAlert.classList.add("hidden");
+});
 
 closeButtons.forEach((closeButton) => {
     closeButton.addEventListener("click", () => {
@@ -247,6 +283,8 @@ closeButtons.forEach((closeButton) => {
             noMatchMessage.classList.add("hidden");
         } else if(!skipMessage.classList.contains("hidden")){
             skipMessage.classList.add("hidden");
+        } else if(!gameInProgressAlert.classList.contains("hidden")){
+            gameInProgressAlert.classList.add("hidden");
         }
     });
 });
