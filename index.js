@@ -256,14 +256,18 @@ var timer = 60;
 var interval = setInterval(function() {
     timer--;
     $('.timer').text(timer);
-    if (timer === 0) clearInterval(interval);
+
     if (timer === 0) {
+        placeholders.forEach(placeholder => placeholder.style.display = "none");
+        hideButtons();
+        winLoseMessage.innerText = "😿 You lose 💔";
         timerPoints++;
         totalLoses++;
         updateTimerPoints();
         updateTotalLosePoints();
         clearInterval(interval)
     }
+    placeholders.forEach(placeholder => placeholder.style.display = "block");
 }, 1000);
 
 function resetTimer() {
