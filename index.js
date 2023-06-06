@@ -132,11 +132,22 @@ function clearGrid() {
     });
 }
 
+<<<<<<< HEAD
 function clearLeaderboard() {
+=======
+// NEW GAME BUTTON
+const newGamebutton = document.querySelector(".button-new");
+newGamebutton.addEventListener("click", function () {
+    console.log('yes')
+    // reset the timer:
+    resetTimer();
+    //clear the leaderboard:
+>>>>>>> main
     totalWins = 0;
     totalLoses = 0;
     timerPoints = 0;
     forfietPoints = 0;
+<<<<<<< HEAD
     fullGridPoints = 0; 
 }
 
@@ -171,6 +182,20 @@ newGamebutton.addEventListener("click", function () {
         timerDiv.style.display = "unset";
     }
 }); 
+=======
+    fullGridPoints = 0;
+    //clear the grid:
+    clearGrid()
+    // show buttons
+    messageDiv.classList.add("hidden");
+    clearButton.classList.remove("hidden");
+    submitButton.classList.remove("hidden");
+    diceRoller.classList.remove("hidden");
+    diceOne.classList.remove("hidden");
+    diceTwo.classList.remove("hidden");
+    timerDiv.style.display = "unset";
+});
+>>>>>>> main
 
 
 // DICE ROLLER
@@ -213,7 +238,7 @@ function handleRollButtonClick() {
         // if they choose to skip the turn, increment the skip variable and let them roll the dice again (let skippedTurn = true)
         skipMessage.classList.remove("hidden");
     }
-    
+
 }
 
 // called when the user clicks the "skip this turn" button in the modal
@@ -294,14 +319,19 @@ var timer = 60;
 var interval = setInterval(function() {
     timer--;
     $('.timer').text(timer);
-    if (timer === 0) clearInterval(interval);
-    if (timer === 0) {
+     
+    if (timer === 0 ) {
+        placeholders.forEach(placeholder => placeholder.style.display = "none");
+        hideButtons();
+        winLoseMessage.innerText = "😿 You lose 💔";
         timerPoints++;
         totalLoses++;
         updateTimerPoints();
         updateTotalLosePoints();
-        clearInterval(interval)
+        clearInterval(interval);
+       
     }
+    placeholders.forEach(placeholder => placeholder.style.display = "block");
 }, 1000);
 
 function resetTimer() {
@@ -325,12 +355,12 @@ let totalWins = 0;
 
 // Function to update fullGrid points
 const updatedFullGridPoints = () => {
-    document.getElementById("fullGridPointsTracker").innerText = fullGridPoints; 
+    document.getElementById("fullGridPointsTracker").innerText = fullGridPoints;
 };
 
 // Function to update forfiet points
 const updateforfietPoints = () => {
-    document.getElementById("forfeitPointsTracker").innerText = forfietPoints; 
+    document.getElementById("forfeitPointsTracker").innerText = forfietPoints;
 };
 
 // function to update timer points
@@ -340,12 +370,12 @@ const updateTimerPoints = () => {
 
 // function to update total win points
 const updateTotalWinPoints = () => {
-    document.getElementById("totalWinsTracker").innerText = totalWins; 
+    document.getElementById("totalWinsTracker").innerText = totalWins;
 };
 
 // function to update total lose points
 const updateTotalLosePoints = () => {
-    document.getElementById("totalLosesTracker").innerText = totalLoses 
+    document.getElementById("totalLosesTracker").innerText = totalLoses
 };
 
 
