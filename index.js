@@ -153,7 +153,16 @@ function clearLeaderboard() {
 // NEW GAME BUTTON
 const newGamebutton = document.querySelector(".button-new");  
 newGamebutton.addEventListener("click", function () {
-    if(cellsSubmitted.length > 0 && cellsSubmitted.length < 100) {
+    // this function is to fix the new game button not firing || or not clearing the grid && starting the timer over
+    if (cellsSubmitted.length > 0 && cellsSubmitted.length < 100) {
+        console.log("Starting a new game will abandon the current game");
+        gameInProgressAlert.classList.remove("hidden");
+    }
+    else if (cellsSubmitted === 100 || timer === 0) {
+        location.reload();
+    }}) 
+    
+     /* if(cellsSubmitted.length > 0 && cellsSubmitted.length < 100) {
         // if there are cells shaded on the grid and the timer has run down or the user skips 2 turns
         if(timer <= 0 || skips === 2) {
             resetTimer();
@@ -179,8 +188,8 @@ newGamebutton.addEventListener("click", function () {
         // show buttons
         showButtons();
         //skippedTurn = true;
-    }
-}); 
+    } */
+// }); 
 
 
 // DICE ROLLER
@@ -361,5 +370,4 @@ const updateTotalWinPoints = () => {
 const updateTotalLosePoints = () => {
     document.getElementById("totalLosesTracker").innerText = totalLoses
 };
-
 
