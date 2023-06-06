@@ -18,11 +18,15 @@ const timerDiv = document.querySelector(".timer");
 const diceDiv = document.querySelector(".roll-button-dice-container");
 const noMatchMessage = document.querySelector(".no-match");
 const closeButtons = document.querySelectorAll(".close-button");
-const gridContainer = document.getElementById("grid-container");
+//const gridContainer = document.getElementById("grid-container");
 let newCellsShaded;
 let skips = 0;
 let skippedTurn;
 const skipMessage = document.querySelector(".skip-message");
+let cellsSubmitted;
+let submittedArr; 
+const gameInProgressAlert = document.querySelector(".game-in-progress");
+const okButton = document.querySelector(".ok-button");
 
 function createGrid() {
     // gives us the option to expand the board dimensions in two player mode
@@ -78,7 +82,6 @@ function shade(event) {
         // if it's not in the array, add it to the clickedCells arry and shade the cell
         targetCell.classList.add("shaded");
         clickedCells.push(targetCell);
-        //cellsShaded = gridContainer.getElementsByClassName("shaded");
     }
 }
 
@@ -120,6 +123,15 @@ function hideButtons(){
     timerDiv.style.display = "none";
 }
 
+function showButtons(){
+    messageDiv.classList.add("hidden");
+    clearButton.classList.remove("hidden");
+    submitButton.classList.remove("hidden");
+    diceRoller.classList.remove("hidden");
+    diceOne.classList.remove("hidden");
+    diceTwo.classList.remove("hidden");
+    timerDiv.style.display = "unset";
+}
 
 // CLEAR GRID FUNCTION
 function clearGrid() {
@@ -128,29 +140,56 @@ function clearGrid() {
     });
 }
 
-// NEW GAME BUTTON
-const newGamebutton = document.querySelector(".button-new");
-newGamebutton.addEventListener("click", function () {
-    console.log('yes')
-    // reset the timer:
-    resetTimer();
-    //clear the leaderboard:
+function clearLeaderboard() {
     totalWins = 0;
     totalLoses = 0;
     timerPoints = 0;
     forfietPoints = 0;
-    fullGridPoints = 0;
-    //clear the grid:
-    clearGrid()
-    // show buttons
-    messageDiv.classList.add("hidden");
-    clearButton.classList.remove("hidden");
-    submitButton.classList.remove("hidden");
-    diceRoller.classList.remove("hidden");
-    diceOne.classList.remove("hidden");
-    diceTwo.classList.remove("hidden");
-    timerDiv.style.display = "unset";
-});
+    fullGridPoints = 0; 
+}
+
+
+
+// NEW GAME BUTTON
+const newGamebutton = document.querySelector(".button-new");  
+newGamebutton.addEventListener("click", function () {
+    // this function is to fix the new game button not firing || or not clearing the grid && starting the timer over
+    if (cellsSubmitted.length > 0 && cellsSubmitted.length < 100) {
+        console.log("Starting a new game will abandon the current game");
+        gameInProgressAlert.classList.remove("hidden");
+    }
+    else if (cellsSubmitted === 100 || timer === 0) {
+        location.reload();
+    }}) 
+    
+     /* if(cellsSubmitted.length > 0 && cellsSubmitted.length < 100) {
+        // if there are cells shaded on the grid and the timer has run down or the user skips 2 turns
+        if(timer <= 0 || skips === 2) {
+            resetTimer();
+            clearLeaderboard();
+            clearGrid();
+            showButtons();
+            submittedArr.forEach((cell) => {
+                cell.classList.remove("submitted");
+            });
+        } else { // if there are cells shaded on the grid, but the whole grid isn't shaded, display alert message
+            console.log("Starting a new game will abandon the current game");
+            gameInProgressAlert.classList.remove("hidden");
+        }
+        
+    } else { 
+        console.log('yes')
+        // reset the timer:
+        resetTimer();
+        //clear the leaderboard:
+        clearLeaderboard(); 
+        //clear the grid:
+        clearGrid()
+        // show buttons
+        showButtons();
+        //skippedTurn = true;
+    } */
+// }); 
 
 
 // DICE ROLLER
@@ -162,8 +201,6 @@ function handleRollButtonClick() {
     // adjust CSS
     diceDiv.style.justifyContent = "flex-start";
     diceDiv.style.paddingLeft = "75px";
-
-    //console.log(`current total cells shaded: ${totalCellsShaded}`);
 
     if(newCellsShaded === undefined || newCellsShaded === true || skippedTurn === true) {
         // generate random numbers between 1 and 6 for each of the die
@@ -181,9 +218,8 @@ function handleRollButtonClick() {
 
         // adds the shade event listener only to cells that haven't been shaded and submitted in previous turns
         cells.forEach((cell) => {
-            if(!cell.classList.contains("submitted") && !cell.dataset.listenerAdded) {
+            if(!cell.classList.contains("submitted")) {
                 cell.addEventListener("click", shade);
-                cell.dataset.listenerAdded = true;
             }
         });
 
@@ -207,6 +243,8 @@ function skipTurn(){
     if(skips === 2) {
         forfietPoints++;
         totalLoses++;
+        updateforfietPoints();
+        updateTotalLosePoints();
         hideButtons();
         winLoseMessage.innerText = "😿 You lose 💔";
     }
@@ -220,9 +258,9 @@ function handleSubmitButtonClick() {
     const product = diceOneValue * diceTwoValue;
     const clickedCellsCurrentTurn = [...clickedCells];
 
-    console.log(`product: ${product}`)
-    console.log(`length of clickedCells array: ${clickedCells.length}`);
-    console.log(`length of clickedCellsCurrentTurn array: ${clickedCellsCurrentTurn.length}`);
+    // console.log(`product: ${product}`)
+    // console.log(`length of clickedCells array: ${clickedCells.length}`);
+    // console.log(`length of clickedCellsCurrentTurn array: ${clickedCellsCurrentTurn.length}`);
 
     if (product !== clickedCellsCurrentTurn.length) {
         console.log("doesn't match");
@@ -238,8 +276,26 @@ function handleSubmitButtonClick() {
         newCellsShaded = true;
         skippedTurn = false;
         skips = 0;
+        cellsSubmitted = container.getElementsByClassName("submitted");
+        submittedArr = Array.from(cellsSubmitted);
+        console.log(cellsSubmitted);
+        console.log(submittedArr);
     }
 }
+
+okButton.addEventListener("click", () => {
+    console.log(submittedArr);
+    clearGrid();
+    resetTimer();
+    clearLeaderboard();
+    submittedArr.forEach((cell) => {
+        cell.classList.remove("submitted");
+        //cell.dataset.listenerAdded = false;
+    });
+    console.log(submittedArr);
+    skippedTurn = true;
+    gameInProgressAlert.classList.add("hidden");
+});
 
 closeButtons.forEach((closeButton) => {
     closeButton.addEventListener("click", () => {
@@ -247,6 +303,8 @@ closeButtons.forEach((closeButton) => {
             noMatchMessage.classList.add("hidden");
         } else if(!skipMessage.classList.contains("hidden")){
             skipMessage.classList.add("hidden");
+        } else if(!gameInProgressAlert.classList.contains("hidden")){
+            gameInProgressAlert.classList.add("hidden");
         }
     });
 });
@@ -256,7 +314,6 @@ var timer = 60;
 var interval = setInterval(function() {
     timer--;
     $('.timer').text(timer);
-     
     if (timer === 0 ) {
         placeholders.forEach(placeholder => placeholder.style.display = "none");
         hideButtons();
@@ -266,9 +323,8 @@ var interval = setInterval(function() {
         updateTimerPoints();
         updateTotalLosePoints();
         clearInterval(interval);
-       
     }
-    placeholders.forEach(placeholder => placeholder.style.display = "block");
+    //placeholders.forEach(placeholder => placeholder.style.display = "block");
 }, 1000);
 
 function resetTimer() {
@@ -315,46 +371,3 @@ const updateTotalLosePoints = () => {
     document.getElementById("totalLosesTracker").innerText = totalLoses
 };
 
-
-//  Icon section to see number of points when hovering over icon
-
-const forfeitIcon = document.querySelector(".fa-font-awesome");
-forfeitIcon.addEventListener("mouseover", () => {
-    forfeitIcon.innerHTML = `<p class="forfeit-score">${forfietPoints}</p>`;
-    //  forfeitIcon.innerText = forfietPoints;
-});
-forfeitIcon.addEventListener("mouseout", () => {
-    forfeitIcon.innerHTML = ""; // Reset icon text when mouse is removed
-});
-
-const fullGridIcon = document.querySelector(".fa-square");
-fullGridIcon.addEventListener("mouseover", () => {
-    fullGridIcon.innerHTML = `<p class="forfeit-score">${fullGridPoints}</p>`;
-});
-fullGridIcon.addEventListener("mouseout", () => {
-    fullGridIcon.innerHTML = ""; // Reset icon text when mouse is removed
-});
-
-const timerIcon = document.querySelector(".fa-hourglass-end");
-timerIcon.addEventListener("mouseover", () => {
-  timerIcon.innerHTML = `<p class="forfeit-score">${timerPoints}</p>`;
-});
-timerIcon.addEventListener("mouseout", () => {
-  timerIcon.innerHTML = "";
-});
-
-const totalWinIcon = document.querySelector(".fa-trophy");
-totalWinIcon.addEventListener("mouseover", () => {
-  totalWinIcon.innerHTML = `<p class="forfeit-score">${totalWins}</p>`;
-});
-totalWinIcon.addEventListener("mouseout", () => {
-  totalWinIcon.innerHTML = "";
-});
-
-const totalLoseIcon = document.querySelector(".fa-heart-crack");
-totalLoseIcon.addEventListener("mouseover", () => {
-    totalLoseIcon.innerHTML = `<p class="forfeit-score">${totalLoses}</p>`;
-  });
-  totalLoseIcon.addEventListener("mouseout", () => {
-    totalLoseIcon.innerHTML = "";
-  });
