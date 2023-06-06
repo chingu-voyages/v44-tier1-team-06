@@ -23,7 +23,7 @@ let newCellsShaded;
 let skips = 0;
 let skippedTurn;
 const skipMessage = document.querySelector(".skip-message");
-let cellsSubmitted;
+let cellsSubmitted = [];
 let submittedArr; 
 const gameInProgressAlert = document.querySelector(".game-in-progress");
 const okButton = document.querySelector(".ok-button");
