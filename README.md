@@ -5,7 +5,6 @@
 
 - [Overview](#overview)
   - [The game](#the-game)
-  - [The challenge](#the-challenge)
   - [Screenshot](#screenshot)
   - [Links](#links)
 - [Our process](#our-process)
@@ -35,12 +34,12 @@ The game will end when one of these conditions are reached:
 
 ### Screenshot
 
-![](/)
+![](./img/0000.png) ![](./img/0001.png) ![](./img/0002.png) ![](./img/0003.png) ![](./img/0004.png) ![](./img/0005.png) ![](./img/0006.png)
 
 ### Links
 
 - [Repo](https://github.com/chingu-voyages/v44-tier1-team-06)
-- Live Site URL: [Live site]() 
+- [Live site](https://the-array-game-mvp.vercel.app/) 
 
 ## Our process
 
