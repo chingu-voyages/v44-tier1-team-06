@@ -158,7 +158,7 @@ newGamebutton.addEventListener("click", function () {
         console.log("Starting a new game will abandon the current game");
         gameInProgressAlert.classList.remove("hidden");
     }
-    else if (cellsSubmitted === 100 || timer === 0) {
+    else if (cellsSubmitted.length === 100 || timer <= 0 || cellsSubmitted.length === 0) {
         location.reload();
     }}) 
     
@@ -247,6 +247,7 @@ function skipTurn(){
         updateTotalLosePoints();
         hideButtons();
         winLoseMessage.innerText = "😿 You lose 💔";
+        cellsSubmitted = [];
     }
 }
 
@@ -284,17 +285,18 @@ function handleSubmitButtonClick() {
 }
 
 okButton.addEventListener("click", () => {
-    console.log(submittedArr);
-    clearGrid();
-    resetTimer();
-    clearLeaderboard();
-    submittedArr.forEach((cell) => {
-        cell.classList.remove("submitted");
-        //cell.dataset.listenerAdded = false;
-    });
-    console.log(submittedArr);
-    skippedTurn = true;
-    gameInProgressAlert.classList.add("hidden");
+    // console.log(submittedArr);
+    // clearGrid();
+    // resetTimer();
+    // clearLeaderboard();
+    // submittedArr.forEach((cell) => {
+    //     cell.classList.remove("submitted");
+    //     //cell.dataset.listenerAdded = false;
+    // });
+    // console.log(submittedArr);
+    // skippedTurn = true;
+    // gameInProgressAlert.classList.add("hidden");
+    location.reload();
 });
 
 closeButtons.forEach((closeButton) => {
@@ -323,6 +325,7 @@ var interval = setInterval(function() {
         updateTimerPoints();
         updateTotalLosePoints();
         clearInterval(interval);
+        cellsSubmitted = [];
     }
     //placeholders.forEach(placeholder => placeholder.style.display = "block");
 }, 1000);
